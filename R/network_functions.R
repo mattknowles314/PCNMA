@@ -1,10 +1,10 @@
 gen_network_data <- function(data, ref){
-  data %>% select(Study, Total.Patients, Treatment.1, Treatment.2, `N.(Trt1)`, `N.(Trt2)`, `Median.OS.(Trt.1)`, `Median.OS.(Trt.2)`) %>% 
+  data %>% select(Study, Year, Total.Patients, Treatment.1, Treatment.2, `N.(Trt1)`, `N.(Trt2)`, Reported.OS, Reported.PFS) %>% 
     rename(N = Total.Patients) %>% 
-    pivot_longer(cols = 3:4, values_to = "Treatment") %>% 
+    mutate(Study = paste0(Study, ", ", Year)) %>% 
+    pivot_longer(cols = 4:5, values_to = "Treatment") %>% 
     mutate(r = ifelse(Treatment == ref, `N.(Trt1)`, `N.(Trt2)`)) %>% 
-    mutate(Median.OS = ifelse(Treatment == ref, `Median.OS.(Trt.1)`, `Median.OS.(Trt.2)`)) %>% 
-    select(-c(name, `N.(Trt1)`, `N.(Trt2)`, `Median.OS.(Trt.1)`, `Median.OS.(Trt.2)`))
+    select(-c(name, `N.(Trt1)`, `N.(Trt2)`))
 }
 
 gen_network <- function(net_data, ref){
