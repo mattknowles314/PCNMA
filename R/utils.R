@@ -1,5 +1,5 @@
 read_def <- function(path){
-  openxlsx::read.xlsx(path, sheet = "DEF", skipEmptyRows = TRUE)
+  openxlsx::read.xlsx(path, sheet = "DEF", startRow = 3)
 }
 
 colours <- list(
