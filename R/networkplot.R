@@ -9,5 +9,14 @@ source("R/network_functions.R")
 data <- read_def("Data/DE.xlsx")
 ref <- "GEM"
 df <- gen_network_data(data, ref)
-net <- gen_network(df, ref)
-plot(net)
+
+OS_network <- df %>% 
+  filter(Reported.OS == 1) %>% 
+  gen_network(ref)
+
+PFS_network <- df %>% 
+  filter(Reported.PFS == 1) %>% 
+  gen_network(ref)
+
+plot(OS_network)
+plot(PFS_network)
