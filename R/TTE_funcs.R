@@ -50,3 +50,5 @@ plot_fitted_distribution <- function(fit){
 dists <- c("exponential")
 
 B <- fit_distribution(distributions = dists, IPD_GemOS_Colluci)
+
+# GAMLSS
