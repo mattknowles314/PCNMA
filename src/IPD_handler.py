@@ -1,7 +1,7 @@
 import csv
 import os
 
-IPD_location = "../Data/IPD/"
+IPD_location = "/home/matthew/Documents/PCNMA/Data/IPD/"
 
 os.chdir(IPD_location)
 
@@ -27,4 +27,4 @@ for i in os.listdir():
                     row.append(study)
                     writer.writerow(row)
         
-    os.system("rm "+i+" & mv temp_"+i+" "+i)
+            os.system("rm "+i+" & mv temp_"+i+" "+i)
