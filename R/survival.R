@@ -1,3 +1,6 @@
+library(flexsurv)
+library(dplyr)
+
 dists <- c("exponential", 
            "gengamma",
            "weibull",

@@ -2,6 +2,7 @@ library(dplyr)
 library(tidyr)
 library(ggraph)
 library(igraph)
+library(ggplot2)
 
 source("R/utils.R")
 source("R/network_functions.R")
@@ -18,5 +19,6 @@ PFS_network <- df %>%
   filter(Reported.PFS == 1) %>% 
   gen_network(ref)
 
-plot(OS_network)
-plot(PFS_network)
+plot(OS_network, layout = "star")
+plot(PFS_network, layout = "star") 
+

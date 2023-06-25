@@ -1,4 +1,5 @@
 library(survminer)
+library(dplyr)
 library(flexsurv)
 
 km_estimates <- function(TTE){
@@ -23,27 +24,26 @@ plot_km <- function(fit, break.x.by = 6){
     ) + ggplot2::scale_x_continuous(breaks = seq(0,max(fit$time),break.x.by))
 }
 
+.fit_distribution <- function(distribution, data){
+  fit <- flexsurvreg(
+    Surv(time, status) ~ 1,
+    dist = distribution,
+    data = data
+  )
+}
 
 fit_distribution <- function(distributions, data){
   df <- data.frame(Distributions = distributions)
   df <- df %>% 
     mutate(Model = purrr::map( 
       Distributions,
-      function(.x) {
-        flexsurvreg(
-          Surv(time, status) ~ 1,
-          dist = .x,
-          data = data)
-      }
+      .fit_distribution,
+      data
     ))
-  
 }
 
 plot_fitted_distribution <- function(fit){
-  if (!inherits(fit, "flexsurvreg")) {
-    rlang::abort("fit object is not of class 'flexsurvreg'")
-  }
-  
+  class(fit$Model) <- "flexsurvreg"
   
 }
 
