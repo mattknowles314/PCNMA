@@ -42,13 +42,17 @@ fit_distribution <- function(distributions, data){
     ))
 }
 
-plot_fitted_distribution <- function(fit){
-  class(fit$Model) <- "flexsurvreg"
+plot_fitted_distribution <- function(fit, km){
+  df <- data.frame(time = summary(fit)[[1]]$time, km = km$surv, fitted = summary(fit)[[1]]$est)
+  p <- ggplot(data = df) +
+    geom_line(aes(x = time, y = km)) +
+    geom_line(aes(x = time, y = fitted), color = "#7EBE91")
+  p
   
 }
 
 dists <- c("exponential")
-
+A <- km_estimates(IPD_GemOS_Colluci)
 B <- fit_distribution(distributions = dists, IPD_GemOS_Colluci)
-
+C <- plot_fitted_distribution(B, A)
 # GAMLSS
