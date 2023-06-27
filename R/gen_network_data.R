@@ -1,3 +1,11 @@
+#' Generate network data
+#'
+#' @param data A date extraction dataset
+#' @param ref A character reference treatment
+#'
+#' @returns A dataframe 
+#' 
+#' @export
 gen_network_data <- function(data, ref){
   data %>% dplyr::select(Study, Year, Total.Patients, Treatment.1, Treatment.2, `N.(Trt1)`, `N.(Trt2)`, Reported.OS, Reported.PFS) %>% 
     dplyr::rename(N = Total.Patients) %>% 
