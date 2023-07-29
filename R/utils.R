@@ -7,3 +7,7 @@ colours <- list(
   "blue" = "#7EABBE",
   "purple" = "#b17ebe"
 )
+
+.get_attribute <- function(Model, attribute){
+  return(Model[[attribute]])
+}
