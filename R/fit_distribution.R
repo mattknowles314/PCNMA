@@ -22,27 +22,50 @@
 #'
 #' @export
 fit_distribution <- function(distributions, data){
-  df <- data.frame(Distributions = names(distributions))
+  df <- data.frame(Distribution = names(distributions))
   df <- df |>  
     dplyr::mutate(Model = purrr::map( 
-      distributions[Distributions],
+      distributions[Distribution],
       .fit_distribution,
       data
+    )) |> 
+    dplyr::mutate(Model_Data = purrr::map(
+      Model,
+      summary
     ))
+  class(df) <- c("fitted_distribution", class(df))
   df
 }
 
-#' Plot a fitted distribution
+#' Plot a fitted distributions
 #'
-#' @param fit A [flexsurv::flexsurvreg] object
+#' @param fit A [PCNMA::fitted_distribtuion] object
+#' @param CI Include a confidence interval?
+#' @param km Add the original KM curve?
 #' @param km a dataframe with a surv column
+#' @param ... For S3 consistency
 #'
 #' @export
-plot_fitted_distribution <- function(fit, km){
-  df <- data.frame(time = flexsurv::summary(fit)[[1]]$time, km = km$surv, fitted = flexsurv::summary(fit)[[1]]$est)
-  p <- ggplot2::ggplot(data = df) +
-    ggplot2::geom_line(ggplot2::aes(x = time, y = km)) +
-    ggplot2::geom_line(ggplot2::aes(x = time, y = fitted), color = "#7EBE91", linewidth = 1.5) +
-    ggplot2::labs(x = "Time", y = "Survival")
+plot.fitted_distribution <-  function(fit, CI = FALSE, km = FALSE, ...){
+  df <- as.data.frame(fit[["Model_Data"]])
+  names(df) <- c("time", "survival", "survival.lcl", "survival.ucl")
+  
+  # Base plot, just the model
+  p <- ggplot(df, aes(x = time, y = survival)) 
+  
+  if (CI) {
+    p <- p +
+      geom_ribbon(aes(x = time, ymin = survival.lcl, ymax = survival.ucl),
+                  fill = "grey70")
+  }
+  
+  # Add the model line and final cosmetic changes
+  p <- p + 
+    geom_line() +
+    labs(x = "Time",
+         y = "Survival")
+  
   p
 }
+
+
