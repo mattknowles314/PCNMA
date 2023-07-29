@@ -6,10 +6,11 @@
 #' @returns A [flexsurv::flexsurvreg] object
 .fit_distribution <- function(distribution, data){
   fit <- flexsurv::flexsurvreg(
-    survival::Surv(time, status) ~ 1,
+    survival::Surv(data$time, data$censored) ~ 1,
     dist = distribution,
     data = data
   )
+  fit
 }
 
 #' Fit distributions to a dataset
@@ -21,13 +22,14 @@
 #'
 #' @export
 fit_distribution <- function(distributions, data){
-  df <- data.frame(Distributions = distributions)
-  df <- df %>% 
+  df <- data.frame(Distributions = names(distributions))
+  df <- df |>  
     dplyr::mutate(Model = purrr::map( 
-      Distributions,
+      distributions[Distributions],
       .fit_distribution,
       data
     ))
+  df
 }
 
 #' Plot a fitted distribution
