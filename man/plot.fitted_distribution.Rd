@@ -2,17 +2,19 @@
 % Please edit documentation in R/fit_distribution.R
 \name{plot.fitted_distribution}
 \alias{plot.fitted_distribution}
-\title{Plot a fitted distribution}
+\title{Plot a fitted distributions object}
 \usage{
-\method{plot}{fitted_distribution}(fit, km, ...)
+\method{plot}{fitted_distribution}(fit, CI = FALSE, km = FALSE, alpha = 0.5, linewidth = 1, ...)
 }
 \arguments{
 \item{fit}{A [PCNMA::fitted_distribtuion] object}
 
-\item{km}{a dataframe with a surv column}
+\item{CI}{Include a confidence interval?}
+
+\item{km}{Add the original KM curve?}
 
 \item{...}{For S3 consistency}
 }
 \description{
-Plot a fitted distribution
+Plot a fitted distributions object
 }

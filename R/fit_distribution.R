@@ -39,10 +39,9 @@ fit_distribution <- function(distributions, data){
 
 #' Plot a fitted distributions object
 #'
-#' @param model_data The Model_Data column of a [PCNMA::fitted_distribtuion] object
+#' @param fit A [PCNMA::fitted_distribtuion] object
 #' @param CI Include a confidence interval?
 #' @param km Add the original KM curve?
-#' @param km a dataframe with a surv column
 #' @param ... For S3 consistency
 #'
 #' @export
@@ -79,9 +78,3 @@ plot.fitted_distribution <-  function(fit, CI = FALSE, km = FALSE, alpha = 0.5, 
   p
 }
 
-#' Obtain summary statistics about the models
-#'
-#'
-summary.fitted_distribution <- function(fit, ...){
-  return 0
-}
