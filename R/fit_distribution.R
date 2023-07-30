@@ -22,22 +22,22 @@
 #'
 #' @export
 fit_distribution <- function(distributions, data){
-  df <- data.frame(Distribution = names(distributions))
-  df <- df |>  
-    dplyr::mutate(Model = purrr::map( 
+  df <- tidyr::tibble(Distribution = names(distributions), Data = list(data)) |> 
+    dplyr::mutate(Model = purrr::map2( 
       distributions[Distribution],
-      .fit_distribution,
-      data
+      Data,
+      .fit_distribution
     )) |> 
+    group_by(Distribution) |> 
     dplyr::mutate(Model_Data = purrr::map(
       Model,
-      summary
-    ))
+      flexsurv:::summary.flexsurvreg
+    )) |> dplyr::mutate(Model_Data = Model_Data[[1]]) #This is a bit ugly, but it works
   class(df) <- c("fitted_distribution", class(df))
   df
 }
 
-#' Plot a fitted distributions
+#' Plot a fitted distributions object
 #'
 #' @param model_data The Model_Data column of a [PCNMA::fitted_distribtuion] object
 #' @param CI Include a confidence interval?
@@ -46,26 +46,34 @@ fit_distribution <- function(distributions, data){
 #' @param ... For S3 consistency
 #'
 #' @export
-plot.fitted_distribution <-  function(model_data, CI = FALSE, km = NULL, alpha = 1, ...){
-  df <- as.data.frame(model_data)
-  names(df) <- c("time", "survival", "survival.lcl", "survival.ucl")
+plot.fitted_distribution <-  function(fit, CI = FALSE, km = FALSE, alpha = 0.5, linewidth = 1, ...){
+  df <- B |> tidyr::unnest(Model_Data) |> 
+    dplyr::select(-c(Data, Model))
   
-  # Base plot, just the model
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = time, y = survival)) 
+  p <- ggplot2::ggplot(df)
   
   if (CI) {
     p <- p +
-      ggplot2::geom_ribbon(ggplot2::aes(x = time, ymin = survival.lcl, ymax = survival.ucl),
-                  fill = "grey70", alpha = alpha)
+      ggplot2::geom_ribbon(ggplot2::aes(
+        x = time,
+        ymin = lcl,
+        ymax = ucl,
+        fill = Distribution,
+      ), alpha = alpha)
   }
   
-  if (!is.null(km)) {
-    
+  if (km) {
+    IPD <- fit$Data[[1]]
+    survobj <- survival::Surv(IPD$time, IPD$censored)
+    survfit <- survminer::surv_fit(survobj ~ 1, data = IPD)
+    df2 <- survminer::surv_summary(survfit) |> select(time, surv)
+    p <- p +
+      geom_line(data = df2, aes(x = time, y = surv))
   }
-  
-  # Add the model line and final cosmetic changes
-  p <- p + 
-    ggplot2::geom_line() +
+
+  p <- p +
+    ggplot2::geom_line(ggplot2::aes(x = time, y = est, color = Distribution), 
+                       linewidth = linewidth) +
     ggplot2::labs(x = "Time",
          y = "Survival")
   p
@@ -75,16 +83,5 @@ plot.fitted_distribution <-  function(model_data, CI = FALSE, km = NULL, alpha =
 #'
 #'
 summary.fitted_distribution <- function(fit, ...){
-  df1 <- data.frame(Distribution = fit$Distribution)
-  df1 <- df1 |> 
-    dplyr::mutate(AIC = purrr::map(
-      fit$Model,
-      .get_attribute,
-      "AIC"
-    )) 
-  coefs <- purrr::map(
-      fit$Model,
-      .get_attribute,
-      "coefficients"
-    )
+  return 0
 }
