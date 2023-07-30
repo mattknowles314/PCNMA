@@ -14,4 +14,5 @@ gen_network <- function(net_data, ref){
     n = N,
     r = r,
     trt_ref = ref)
+  net
 }

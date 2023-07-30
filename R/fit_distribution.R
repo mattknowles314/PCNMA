@@ -65,9 +65,11 @@ plot.fitted_distribution <-  function(fit, CI = FALSE, km = FALSE, alpha = 0.5, 
     IPD <- fit$Data[[1]]
     survobj <- survival::Surv(IPD$time, IPD$censored)
     survfit <- survminer::surv_fit(survobj ~ 1, data = IPD)
-    df2 <- survminer::surv_summary(survfit) |> select(time, surv)
+    df2 <- survminer::surv_summary(survfit) |> 
+      dplyr::select(time, surv)
     p <- p +
-      geom_line(data = df2, aes(x = time, y = surv))
+      ggplot2::geom_line(data = df2, 
+                         ggplot2::aes(x = time, y = surv))
   }
 
   p <- p +
@@ -78,3 +80,20 @@ plot.fitted_distribution <-  function(fit, CI = FALSE, km = FALSE, alpha = 0.5, 
   p
 }
 
+#' Summary of a set of fitted models
+#'
+#'
+summary.fitted_distribution <- function(fit, AIC = FALSE){
+  df <- tidyr::tibble(Distribution = fit$Distribution)
+  
+  if (AIC) {
+    df <- df |> 
+      dplyr::mutate(AIC = purrr::map_dbl(
+        fit$Model,
+        .get_attribute,
+        "AIC"
+      ))
+  }
+  
+  df
+}
