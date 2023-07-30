@@ -8,6 +8,16 @@ colours <- list(
   "purple" = "#b17ebe"
 )
 
+nice_parametric_dists <- list(
+  "Exponential" = "exp",
+  "Gamma" = "gamma",
+  "Generalised Gamma" = "gengamma",
+  "Gompertz" = "gompertz",
+  "Log-Logistic" = "llogis",
+  "Log-normal" = "lnorm",
+  "Weibull" = "weibull"
+)
+
 .get_attribute <- function(Model, attribute){
   return(Model[[attribute]])
 }
