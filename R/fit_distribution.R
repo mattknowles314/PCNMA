@@ -28,7 +28,7 @@ fit_distribution <- function(distributions, data){
       Data,
       .fit_distribution
     )) |> 
-    group_by(Distribution) |> 
+    dplyr::group_by(Distribution) |> 
     dplyr::mutate(Model_Data = purrr::map(
       Model,
       flexsurv:::summary.flexsurvreg
@@ -46,7 +46,7 @@ fit_distribution <- function(distributions, data){
 #'
 #' @export
 plot.fitted_distribution <-  function(fit, CI = FALSE, km = FALSE, alpha = 0.5, linewidth = 1, ...){
-  df <- B |> tidyr::unnest(Model_Data) |> 
+  df <- fit |> tidyr::unnest(Model_Data) |> 
     dplyr::select(-c(Data, Model))
   
   p <- ggplot2::ggplot(df)
@@ -82,7 +82,6 @@ plot.fitted_distribution <-  function(fit, CI = FALSE, km = FALSE, alpha = 0.5, 
 
 #' Summary of a set of fitted models
 #'
-#'
 summary.fitted_distribution <- function(fit, AIC = FALSE){
   df <- tidyr::tibble(Distribution = fit$Distribution)
   
@@ -95,5 +94,12 @@ summary.fitted_distribution <- function(fit, AIC = FALSE){
       ))
   }
   
+  df
+}
+
+#' Coefficients of fitted models
+coef.fitted_distribution <- function(fit){
+  df <- fit |> 
+    dplyr::select(Distribution, Model)
   df
 }
