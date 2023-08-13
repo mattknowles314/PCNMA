@@ -99,7 +99,6 @@ summary.fitted_distribution <- function(fit, AIC = FALSE){
 
 #' Coefficients of fitted models
 coef.fitted_distribution <- function(fit){
-  df <- fit |> 
-    dplyr::select(Distribution, Model)
-  df
+  coefList <- purrr::map(fit$Model, .get_attribute, "coefficients")
+  coefList
 }
