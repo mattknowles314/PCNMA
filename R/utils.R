@@ -18,6 +18,22 @@ nice_parametric_dists <- list(
   "Weibull" = "weibull"
 )
 
+nice_parametric_paramlist <- c(
+  "rate",
+  "shape",
+  "rate",
+  "mu",
+  "sigma",
+  "Q",
+  "shape",
+  "rate",
+  "shape", 
+  "scale",
+  "meanlog",
+  "sdlog",
+  "shape",
+  "scale")
+
 .get_attribute <- function(Model, attribute){
   return(Model[[attribute]])
 }

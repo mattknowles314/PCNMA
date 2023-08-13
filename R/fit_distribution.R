@@ -39,12 +39,11 @@ fit_distribution <- function(distributions, data){
 
 #' Plot a fitted distributions object
 #'
-#' @param fit A [PCNMA::fitted_distribtuion] object
+#' @param fit A [PCNMA::fitted_distribution] object
 #' @param CI Include a confidence interval?
 #' @param km Add the original KM curve?
 #' @param ... For S3 consistency
 #'
-#' @export
 plot.fitted_distribution <-  function(fit, CI = FALSE, km = FALSE, alpha = 0.5, linewidth = 1, ...){
   df <- fit |> tidyr::unnest(Model_Data) |> 
     dplyr::select(-c(Data, Model))
@@ -97,8 +96,21 @@ summary.fitted_distribution <- function(fit, AIC = FALSE){
   df
 }
 
+coef <- function(fit, ...) UseMethod("coef")
+ 
 #' Coefficients of fitted models
-coef.fitted_distribution <- function(fit){
+#' 
+#' @param fit A [PCNMA::fitted_distribution] object
+#' @param ... for S3 consistency
+#' 
+#' @export
+#' 
+coef.fitted_distribution <- function(fit, ...){
   coefList <- purrr::map(fit$Model, .get_attribute, "coefficients")
-  coefList
+  df <- stack(coefList)
+  names(df) <- c("Value", "Distribution")
+  df <- df |> 
+    dplyr::mutate(term = nice_parametric_paramlist) |> 
+    dplyr::select(Distribution, term, Value)
+  df
 }
