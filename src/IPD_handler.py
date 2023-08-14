@@ -6,11 +6,11 @@ IPD_location = "/home/matthew/Documents/PCNMA/Data/IPD/"
 os.chdir(IPD_location)
 
 for i in os.listdir():
-    study = i.split("_")[2].strip(".csv")
-    paramcd = "OS" if "OS" in i.split("_")[1] else "PFS"
-    treatment = "GEM" if "GemO" or "GemP" in i else i.split("_")[1].strip(paramcd)
+    study = i.split("_")[1]
+    paramcd = i.split("_")[2]
+    treatment = i.split("_")[3].strip(".csv")
 
-    with open(i, "r") as file:
+    with open(IPD_location+i, "r") as file:
         reader = csv.reader(file)
         header = next(reader)
 

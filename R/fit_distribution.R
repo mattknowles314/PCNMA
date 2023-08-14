@@ -95,8 +95,6 @@ summary.fitted_distribution <- function(fit, AIC = FALSE){
   
   df
 }
-
-coef <- function(fit, ...) UseMethod("coef")
  
 #' Coefficients of fitted models
 #' 
@@ -114,3 +112,5 @@ coef.fitted_distribution <- function(fit, ...){
     dplyr::select(Distribution, term, Value)
   df
 }
+
+
