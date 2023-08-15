@@ -12,4 +12,5 @@ km_estimates <- function(TTE){
       event = status,
       type = "right"
     ) ~ 1, data = TTE)
+  out
 }

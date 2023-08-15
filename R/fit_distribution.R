@@ -6,7 +6,7 @@
 #' @returns A [flexsurv::flexsurvreg] object
 .fit_distribution <- function(distribution, data){
   fit <- flexsurv::flexsurvreg(
-    survival::Surv(data$time, data$censored) ~ 1,
+    survival::Surv(data$time, data$status) ~ 1,
     dist = distribution,
     data = data
   )
@@ -62,7 +62,7 @@ plot.fitted_distribution <-  function(fit, CI = FALSE, km = FALSE, alpha = 0.5, 
   
   if (km) {
     IPD <- fit$Data[[1]]
-    survobj <- survival::Surv(IPD$time, IPD$censored)
+    survobj <- survival::Surv(IPD$time, IPD$status)
     survfit <- survminer::surv_fit(survobj ~ 1, data = IPD)
     df2 <- survminer::surv_summary(survfit) |> 
       dplyr::select(time, surv)
@@ -112,5 +112,3 @@ coef.fitted_distribution <- function(fit, ...){
     dplyr::select(Distribution, term, Value)
   df
 }
-
-
