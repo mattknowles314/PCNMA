@@ -7,7 +7,7 @@
 \method{plot}{fitted_distribution}(fit, CI = FALSE, km = FALSE, alpha = 0.5, linewidth = 1, ...)
 }
 \arguments{
-\item{fit}{A [PCNMA::fitted_distribtuion] object}
+\item{fit}{A [PCNMA::fitted_distribution] object}
 
 \item{CI}{Include a confidence interval?}
 

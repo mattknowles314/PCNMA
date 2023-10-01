@@ -7,7 +7,7 @@
 #' 
 #' @export
 gen_network <- function(net_data, ref){
-  net <- multinma::set_agd_surv(
+  net <- multinma::set_ipd(
     net_data,
     study = Study,
     trt = treatment,
