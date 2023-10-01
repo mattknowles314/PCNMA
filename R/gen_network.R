@@ -7,12 +7,11 @@
 #' 
 #' @export
 gen_network <- function(net_data, ref){
-  net <- multinma::set_agd_arm(
+  net <- multinma::set_agd_surv(
     net_data,
     study = Study,
-    trt = Treatment,
-    n = N,
-    r = r,
+    trt = treatment,
+    Surv = Surv(time, censored),
     trt_ref = ref)
   net
 }

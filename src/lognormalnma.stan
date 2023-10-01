@@ -13,14 +13,14 @@ parameters {
 }
 
 model {
-  tau ~ uniform(0, 2.5);
+  tau ~ normal(0, 5);
   for (i in 1:N){
     real mu_gem = mean_gem[i];
     real mu_comp = mean_comp[i];
     real sigma_gem = sd_gem[i];
     real sigma_comp = sd_comp[i];
     
-    real delta_mu = mu_gem - mu_comp;
+    real delta_mu = mu_comp - mu_gem;
     
     delta[i] ~ normal(delta_mu, sqrt(sigma_gem^2 + sigma_comp^2 + tau^2));
   }
