@@ -11,6 +11,7 @@ fit_model <- function(network, L, link = "log", ...){
     network,
     likelihood = L,
     link = link,
+    consistency = "consistency",
     ...
   )
   out
