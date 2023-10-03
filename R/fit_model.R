@@ -13,8 +13,9 @@ fit_model <- function(network, L, link = "log", iter, seed){
     link = link,
     consistency = "consistency",
     trt_effects = "random",
-    iter,
-    seed
+    iter = iter,
+    regression = NULL,
+    seed = seed
   )
   out
 }
