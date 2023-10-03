@@ -6,14 +6,15 @@
 #' @param ... Other parameters to pass to [multinma::nma]
 #'  
 #' @export
-fit_model <- function(network, L, link = "log", ...){
+fit_model <- function(network, L, link = "log", iter, seed){
   out <- multinma::nma(
     network,
     likelihood = L,
     link = link,
     consistency = "consistency",
     trt_effects = "random",
-    ...
+    iter,
+    seed
   )
   out
 }
