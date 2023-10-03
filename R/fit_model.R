@@ -12,6 +12,7 @@ fit_model <- function(network, L, link = "log", ...){
     likelihood = L,
     link = link,
     consistency = "consistency",
+    trt_effects = "random",
     ...
   )
   out
