@@ -10,7 +10,7 @@ fit_model <- function(network, L, link = "log", ...){
   out <- multinma::nma(
     network,
     likelihood = L,
-    link,
+    link = link,
     ...
   )
   out
