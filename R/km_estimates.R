@@ -5,12 +5,12 @@
 #' @returns A [ggsurvfit::survfit2] object
 #' 
 #' @export
-km_estimates <- function(TTE){
+km_estimates <- function(TTE, strata = 1){
   out <- ggsurvfit::survfit2(
     survival::Surv(
       time = time, 
       event = status,
       type = "right"
-    ) ~ 1, data = TTE)
+    ) ~ strata, data = TTE)
   out
 }
