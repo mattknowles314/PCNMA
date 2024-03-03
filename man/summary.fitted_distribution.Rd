@@ -4,10 +4,15 @@
 \alias{summary.fitted_distribution}
 \title{Summary of a set of fitted models}
 \usage{
-\method{summary}{fitted_distribution}(fit, AIC = FALSE)
+\method{summary}{fitted_distribution}(
+  fit,
+  AIC = FALSE,
+  median = FALSE,
+  strata = c("Colucci", "Cunningham", "Oettle", "Kindler", "RochaLima")
+)
 }
 \arguments{
-\item{fit}{A `PCNMA::fitted_distibutions` object.}
+\item{fit}{A `PCNMA::fitted_distributions` object.}
 }
 \description{
 Summary of a set of fitted models

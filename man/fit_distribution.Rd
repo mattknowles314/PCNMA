@@ -4,12 +4,16 @@
 \alias{fit_distribution}
 \title{Fit survival distributions to a dataset.}
 \usage{
-fit_distribution(distributions, data, strata = "Treatment")
+fit_distribution(distributions, data, strata = "Treatment", maxT = 60)
 }
 \arguments{
 \item{distributions}{A list of distributions}
 
 \item{data}{An IPD dataset}
+
+\item{strata}{Stratification variables}
+
+\item{maxT}{maximum time to calculate fitted values at}
 }
 \value{
 A dataframe with fitted values

@@ -22,11 +22,13 @@
 #'
 #' @param distributions A list of distributions
 #' @param data An IPD dataset
-#' 
+#' @param strata Stratification variables
+#' @param maxT maximum time to calculate fitted values at  
+#'  
 #' @returns A dataframe with fitted values
 #'
 #' @export
-fit_distribution <- function(distributions, data, strata = "Treatment") {
+fit_distribution <- function(distributions, data, strata = "Treatment", maxT = 60) {
   df <- tidyr::tibble(Distribution = names(distributions), Data = list(data)) |> 
     dplyr::mutate(Model = purrr::map2( 
       distributions[Distribution],
@@ -38,7 +40,8 @@ fit_distribution <- function(distributions, data, strata = "Treatment") {
     dplyr::mutate(Model_Data = purrr::map(
       Model,
       flexsurv:::summary.flexsurvreg,
-      tidy = TRUE
+      tidy = TRUE,
+      t = seq(0, maxT, 0.1)
     )) 
   class(df) <- c("fitted_distribution", class(df))
   df
@@ -67,11 +70,11 @@ plot.fitted_distribution <- function(fit,
   
   df <- fit |> tidyr::unnest(Model_Data) |> 
     select(-c(Data, Model))
-  if (!("Treatment" %in% colnames(df))) {
-    # This currently doesn't work for strata = 1.
-    df <- df |> dplyr::rename(Treatment = `Data$Treatment`)
-  } 
-  df <- df |> dplyr::mutate(across(Treatment, as.factor))
+  # if (!("Treatment" %in% colnames(df))) {
+  #   # This currently doesn't work for strata = 1.
+  #   df <- df |> dplyr::rename(Treatment = `Data$Treatment`)
+  # } 
+  # df <- df |> dplyr::mutate(across(Treatment, as.factor))
   
   p <- ggplot2::ggplot(df)
   
@@ -87,13 +90,9 @@ plot.fitted_distribution <- function(fit,
   
   if (km) {
     IPD <- fit$Data[[1]]
-    survfit <- ggsurvfit::survfit2(survival::Surv(
-      time,
-      event = status,
-      type = "right"
-    ) ~ Treatment, data = IPD)
+    survfit <- ggsurvfit::survfit2(.gen_surv_formula("Study"), data = IPD)
     df2 <- survminer::surv_summary(survfit, data = IPD) |> 
-      dplyr::select(time, surv, Treatment)
+      dplyr::select(time, surv, Study)
     p <- p +
       ggplot2::geom_line(data = df2, 
                          ggplot2::aes(x = time, y = surv))
@@ -103,16 +102,17 @@ plot.fitted_distribution <- function(fit,
     ggplot2::geom_line(ggplot2::aes(x = time, y = est, colour = Distribution), 
                        linewidth = linewidth) +
     ggplot2::labs(x = "Time",
-         y = "Survival") +
-    ggplot2::facet_grid(~Treatment)
+         y = "Survival") 
+    #ggplot2::facet_grid(~Study)
   p
 }
 
 #' Summary of a set of fitted models
 #' 
-#' @param fit A `PCNMA::fitted_distibutions` object.
+#' @param fit A `PCNMA::fitted_distributions` object.
 #' 
-summary.fitted_distribution <- function(fit, AIC = FALSE){
+summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE, 
+                                        strata = c("Colucci", "Cunningham", "Oettle", "Kindler", "RochaLima")) {
   df <- tidyr::tibble(Distribution = fit$Distribution)
   
   if (AIC) {
@@ -124,6 +124,21 @@ summary.fitted_distribution <- function(fit, AIC = FALSE){
       ))
   }
   
+  if (median) {
+    df <- df |> 
+      dplyr::mutate(Median = purrr::map(
+        fit$Model,
+        flexsurv:::predict.flexsurvreg,
+        p = 0.5,
+        type = "quantile",
+        newdata = data.frame(Study = strata))) |> 
+      tidyr::unnest(Median) |> 
+      dplyr::mutate(Study = rep(strata, length(unique(fit$Model)))) |> 
+      dplyr::rename(Median = .pred_quantile) |> 
+      dplyr::select(-c(.quantile)) |> 
+      tidyr::pivot_wider(names_from = Study, values_from = Median)
+  }
+
   df
 }
  
@@ -134,12 +149,13 @@ summary.fitted_distribution <- function(fit, AIC = FALSE){
 #' 
 #' @export
 #' 
-coef.fitted_distribution <- function(fit, ...){
+coef.fitted_distribution <- function(fit, studies, ...){
   coefList <- purrr::map(fit$Model, .get_attribute, "coefficients")
   df <- stack(coefList)
   names(df) <- c("Value", "Distribution")
-  df <- df |> 
-    dplyr::mutate(term = nice_parametric_paramlist) |> 
-    dplyr::select(Distribution, term, Value)
+  #df <- df |> 
+  #  dplyr::mutate(term = nice_parametric_paramlist) |> 
+  #  dplyr::select(Distribution, term, Value)
+  
   df
 }

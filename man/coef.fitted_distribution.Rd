@@ -4,7 +4,7 @@
 \alias{coef.fitted_distribution}
 \title{Coefficients of fitted models}
 \usage{
-\method{coef}{fitted_distribution}(fit, ...)
+\method{coef}{fitted_distribution}(fit, studies, ...)
 }
 \arguments{
 \item{fit}{A [PCNMA::fitted_distribution] object}
