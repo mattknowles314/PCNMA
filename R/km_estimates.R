@@ -9,6 +9,39 @@
 #' @export
 km_estimates <- function(TTE, strata = "1"){
   out <- ggsurvfit::survfit2(formula = .gen_surv_formula(strata), data = TTE)
-  class(out) <- c("km_obj", class(obj))
+  class(out) <- c("km_obj", class(out))
   out
+}
+
+#' Plot a KM curve
+#' 
+#' @param fit A [PCNMA::km_obj] object
+#' @param break.x.by A numeric value for splitting x axis
+#' @param xMax The maximum time value to plot
+#' @param risktable.height The proportion of the figure to be taken up by the risk table
+#'
+#' @returns A plotted km curve
+#' 
+#' @export
+plot.km_obj <- function(fit, break.x.by = 5, xMax = 40, risktable.height = 0.3){
+  if (!inherits(fit, "km_obj")) {
+    rlang::abort("fit object is not of class 'km_obj'")
+  }
+  
+  ggsurvfit::ggsurvfit(
+    fit,
+    type = "survival",
+    linetype_aes = "strata"
+  ) + 
+    ggsurvfit::add_censor_mark() +
+    ggsurvfit::add_risktable(
+      risktable_stats = "n.risk",
+      risktable_group = "strata",
+      risktable_height = risktable.height,
+      stats_label = list(n.risk = "")
+    ) +
+    ggsurvfit::scale_ggsurvfit(
+      x_scales = list(breaks = seq(0, xMax, by = break.x.by),
+                      limits = c(0,xMax))
+    )
 }

@@ -10,7 +10,7 @@ km_estimates(TTE, strata = "1")
 \item{TTE}{A TTE dataframe}
 }
 \value{
-A [ggsurvfit::survfit2] object
+A [PCNMA::km_obj] object
 }
 \description{
 Generate Kaplan-Meier estimates from a TTE object. Uses `ggsurvfit::survfit2` to generate KM estimates. Only requires strata to be specified.
