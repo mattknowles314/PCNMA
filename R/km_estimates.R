@@ -63,10 +63,10 @@ summary.km_obj <- function(fit, ...) {
   df <- data.frame(df)
   
   summary_table <- data.frame(Study = rownames(df)) |> 
-    mutate(Study = stringr::str_remove(Study, "Study=")) |> 
-    mutate(Median = df[["median"]]) |> 
-    mutate(MedianL95 = df[["X0.95LCL"]]) |> 
-    mutate(MedianU95 = df[["X0.95UCL"]])
+    dplyr::mutate(Study = stringr::str_remove(Study, "Study=")) |> 
+    dplyr::mutate(Median = df[["median"]]) |> 
+    dplyr::mutate(MedianL95 = df[["X0.95LCL"]]) |> 
+    dplyr::mutate(MedianU95 = df[["X0.95UCL"]])
   
   summary_table
 }
