@@ -2,9 +2,9 @@
 % Please edit documentation in R/fit_distribution.R
 \name{fit_distribution}
 \alias{fit_distribution}
-\title{Fit distributions to a dataset}
+\title{Fit survival distributions to a dataset.}
 \usage{
-fit_distribution(distributions, data)
+fit_distribution(distributions, data, strata = "Treatment")
 }
 \arguments{
 \item{distributions}{A list of distributions}
@@ -15,5 +15,5 @@ fit_distribution(distributions, data)
 A dataframe with fitted values
 }
 \description{
-Fit distributions to a dataset
+This function extends the `PCNMA:::.fit_distribution` function, by fitting a given set of distributions to a TTE dataset.
 }

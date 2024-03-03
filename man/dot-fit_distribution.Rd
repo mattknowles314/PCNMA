@@ -2,18 +2,20 @@
 % Please edit documentation in R/fit_distribution.R
 \name{.fit_distribution}
 \alias{.fit_distribution}
-\title{Fit a single distribution}
+\title{Fit a single survival distribution}
 \usage{
-.fit_distribution(distribution, data)
+.fit_distribution(distribution, data, strata = "Treatment")
 }
 \arguments{
 \item{distribution}{A single distribution}
 
 \item{data}{An IPD dataset}
+
+\item{strata}{Strata for the RHS of the `survival::Surv` function}
 }
 \value{
 A [flexsurv::flexsurvreg] object
 }
 \description{
-Fit a single distribution
+This function is a wrapper on `flexsurv::flexsurvreg`, and fits a single distribution to the specified data.
 }

@@ -47,12 +47,12 @@ nice_parametric_paramlist <- c(
 
 # For use with ggsurvfit
 .gen_surv_formula <- function(strata) {
-  as.formula(paste0("Surv(time = time, event = status, type = 'right') ~ ", strata))
+  as.formula(paste("Surv(time = time, event = status, type = 'right') ~ ", paste0(strata, collapse = "+")))
 }
 
 # For use with flexsurv
 .gen_surv_formula2 <- function(strata) {
-  as.formula(paste0("Surv(time, status) ~ ", strata))
+  as.formula(paste("Surv(time, status) ~ ", paste0(strata, collapse = "+")))
 }
 
 

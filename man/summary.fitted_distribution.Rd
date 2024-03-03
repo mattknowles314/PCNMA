@@ -6,6 +6,9 @@
 \usage{
 \method{summary}{fitted_distribution}(fit, AIC = FALSE)
 }
+\arguments{
+\item{fit}{A `PCNMA::fitted_distibutions` object.}
+}
 \description{
 Summary of a set of fitted models
 }

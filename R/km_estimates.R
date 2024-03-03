@@ -4,10 +4,11 @@
 #'
 #' @param TTE A TTE dataframe
 #'
-#' @returns A [ggsurvfit::survfit2] object
+#' @returns A [PCNMA::km_obj] object
 #' 
 #' @export
 km_estimates <- function(TTE, strata = "1"){
   out <- ggsurvfit::survfit2(formula = .gen_surv_formula(strata), data = TTE)
+  class(out) <- c("km_obj", class(obj))
   out
 }

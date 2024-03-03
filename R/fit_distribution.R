@@ -1,7 +1,10 @@
-#' Fit a single distribution
+#' Fit a single survival distribution
+#' 
+#' This function is a wrapper on `flexsurv::flexsurvreg`, and fits a single distribution to the specified data.
 #' 
 #' @param distribution A single distribution
 #' @param data An IPD dataset
+#' @param strata Strata for the RHS of the `survival::Surv` function
 #' 
 #' @returns A [flexsurv::flexsurvreg] object
 .fit_distribution <- function(distribution, data, strata = "Treatment"){
@@ -13,7 +16,9 @@
   fit
 }
 
-#' Fit distributions to a dataset
+#' Fit survival distributions to a dataset.
+#' 
+#' This function extends the `PCNMA:::.fit_distribution` function, by fitting a given set of distributions to a TTE dataset.
 #'
 #' @param distributions A list of distributions
 #' @param data An IPD dataset
@@ -41,7 +46,9 @@ fit_distribution <- function(distributions, data, strata = "Treatment") {
 
 #' Plot a fitted distributions object
 #'
-#' @param fit A [PCNMA::fitted_distribution] object
+#' Creates a plot for a result of `PCNMA::fit_distribution`.
+#'
+#' @param fit A `PCNMA::fitted_distribution` object
 #' @param CI Include a confidence interval?
 #' @param km Add the original KM curve?
 #' @param ... For S3 consistency
@@ -102,6 +109,9 @@ plot.fitted_distribution <- function(fit,
 }
 
 #' Summary of a set of fitted models
+#' 
+#' @param fit A `PCNMA::fitted_distibutions` object.
+#' 
 summary.fitted_distribution <- function(fit, AIC = FALSE){
   df <- tidyr::tibble(Distribution = fit$Distribution)
   

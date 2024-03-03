@@ -1,11 +1,11 @@
 Package: PCNMA
 Type: Package
-Title: Pancreatic cancer NMA
+Title: Parametric and Non-Parametric Survival Models in Pancreatic Cancer Trials
 Version: 0.1
 Date: 2023-06-27
 Author: Matthew Knowles
 Maintainer: Matthew Knowles <mattknowles314@gmail.com>
-Description: TBD
+Description: This package contains the functions and data for my MSc Thesis, concerning the use of parametric and non-parametric models for survival in pancreatic cancer
 License: MIT + file LICENSE
 RoxygenNote: 7.2.3
 Encoding: UTF-8
