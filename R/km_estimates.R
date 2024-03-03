@@ -11,6 +11,6 @@ km_estimates <- function(TTE, strata = 1){
       time = time, 
       event = status,
       type = "right"
-    ) ~ strata, data = TTE)
+    ) ~ Study, data = TTE)
   out
 }

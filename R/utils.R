@@ -20,19 +20,26 @@ nice_parametric_dists <- list(
 
 nice_parametric_paramlist <- c(
   "rate",
+  "tx",
   "shape",
   "rate",
+  "tx",
   "mu",
   "sigma",
   "Q",
+  "tx",
   "shape",
   "rate",
+  "tx",
   "shape", 
   "scale",
+  "tx",
   "meanlog",
   "sdlog",
+  "tx",
   "shape",
-  "scale")
+  "scale",
+  "tx")
 
 .get_attribute <- function(Model, attribute){
   return(Model[[attribute]])

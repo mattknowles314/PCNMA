@@ -16,5 +16,5 @@ plot_km <- function(fit, break.x.by = 6){
   ) + ggsurvfit::add_censor_mark() +
     ggsurvfit::add_risktable(
       risktable_stats = "n.risk"
-    ) + ggplot2::scale_x_continuous(breaks = seq(0,max(fit$time),break.x.by))
+    ) + ggplot2::scale_x_continuous(breaks = seq(0,max(fit$time),break.x.by)) + scale_colour_manual(values = c("#7EBE91", "#b17ebe")) 
 }

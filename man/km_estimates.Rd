@@ -4,7 +4,7 @@
 \alias{km_estimates}
 \title{Generate KM estimates}
 \usage{
-km_estimates(TTE)
+km_estimates(TTE, strata = 1)
 }
 \arguments{
 \item{TTE}{A TTE dataframe}
