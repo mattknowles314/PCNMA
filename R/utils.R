@@ -41,8 +41,12 @@ nice_parametric_paramlist <- c(
   "scale",
   "tx")
 
-.get_attribute <- function(Model, attribute){
+.get_attribute <- function(Model, attribute) {
   return(Model[[attribute]])
+}
+
+.gen_surv_formula <- function(strata) {
+  as.formula(paste0("Surv(time = time, event = status, type = 'right') ~ ", strata))
 }
 
 boxTid <- function(x, p) {

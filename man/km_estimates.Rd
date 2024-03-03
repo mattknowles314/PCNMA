@@ -4,7 +4,7 @@
 \alias{km_estimates}
 \title{Generate KM estimates}
 \usage{
-km_estimates(TTE, strata = 1)
+km_estimates(TTE, strata = "1")
 }
 \arguments{
 \item{TTE}{A TTE dataframe}
@@ -13,5 +13,5 @@ km_estimates(TTE, strata = 1)
 A [ggsurvfit::survfit2] object
 }
 \description{
-Generate KM estimates
+Generate Kaplan-Meier estimates from a TTE object. Uses `ggsurvfit::survfit2` to generate KM estimates. Only requires strata to be specified.
 }
