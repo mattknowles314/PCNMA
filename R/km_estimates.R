@@ -19,11 +19,12 @@ km_estimates <- function(TTE, strata = "1"){
 #' @param break.x.by A numeric value for splitting x axis
 #' @param xMax The maximum time value to plot
 #' @param risktable.height The proportion of the figure to be taken up by the risk table
+#' @param ... For S3 consistency
 #'
 #' @returns A plotted km curve
 #' 
 #' @export
-plot.km_obj <- function(fit, break.x.by = 5, xMax = 40, risktable.height = 0.3){
+plot.km_obj <- function(fit, break.x.by = 5, xMax = 40, risktable.height = 0.3, ...){
   if (!inherits(fit, "km_obj")) {
     rlang::abort("fit object is not of class 'km_obj'")
   }
@@ -44,4 +45,28 @@ plot.km_obj <- function(fit, break.x.by = 5, xMax = 40, risktable.height = 0.3){
       x_scales = list(breaks = seq(0, xMax, by = break.x.by),
                       limits = c(0,xMax))
     )
+}
+
+#' Summarise KM data
+#' 
+#' @param fit A `PCNMA::km_obj` object
+#' 
+#' @returns A summary table of the KM data
+#' 
+#' @export
+summary.km_obj <- function(fit, ...) {
+  if (!inherits(fit, "km_obj")) {
+    rlang::abort("fit object is not of class 'km_obj'")
+  }
+  
+  df <- survival:::summary.survfit(fit)[["table"]] 
+  df <- data.frame(df)
+  
+  summary_table <- data.frame(Study = rownames(df)) |> 
+    mutate(Study = stringr::str_remove(Study, "Study=")) |> 
+    mutate(Median = df[["median"]]) |> 
+    mutate(MedianL95 = df[["X0.95LCL"]]) |> 
+    mutate(MedianU95 = df[["X0.95UCL"]])
+  
+  summary_table
 }

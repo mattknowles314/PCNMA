@@ -4,7 +4,7 @@
 \alias{plot.km_obj}
 \title{Plot a KM curve}
 \usage{
-\method{plot}{km_obj}(fit, break.x.by = 5, xMax = 40, risktable.height = 0.3)
+\method{plot}{km_obj}(fit, break.x.by = 5, xMax = 40, risktable.height = 0.3, ...)
 }
 \arguments{
 \item{fit}{A [PCNMA::km_obj] object}
@@ -14,6 +14,8 @@
 \item{xMax}{The maximum time value to plot}
 
 \item{risktable.height}{The proportion of the figure to be taken up by the risk table}
+
+\item{...}{For S3 consistency}
 }
 \value{
 A plotted km curve
