@@ -45,9 +45,16 @@ nice_parametric_paramlist <- c(
   return(Model[[attribute]])
 }
 
+# For use with ggsurvfit
 .gen_surv_formula <- function(strata) {
   as.formula(paste0("Surv(time = time, event = status, type = 'right') ~ ", strata))
 }
+
+# For use with flexsurv
+.gen_surv_formula2 <- function(strata) {
+  as.formula(paste0("Surv(time, status) ~ ", strata))
+}
+
 
 boxTid <- function(x, p) {
   ifelse(p == 0, return(log(x)), return(x^p))

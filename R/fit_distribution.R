@@ -4,9 +4,9 @@
 #' @param data An IPD dataset
 #' 
 #' @returns A [flexsurv::flexsurvreg] object
-.fit_distribution <- function(distribution, data){
+.fit_distribution <- function(distribution, data, strata = "Treatment"){
   fit <- flexsurv::flexsurvreg(
-    survival::Surv(data$time, data$status) ~ data$Treatment,
+    formula = .gen_surv_formula2(strata),
     dist = distribution,
     data = data
   )
@@ -21,12 +21,13 @@
 #' @returns A dataframe with fitted values
 #'
 #' @export
-fit_distribution <- function(distributions, data){
+fit_distribution <- function(distributions, data, strata = "Treatment") {
   df <- tidyr::tibble(Distribution = names(distributions), Data = list(data)) |> 
     dplyr::mutate(Model = purrr::map2( 
       distributions[Distribution],
       Data,
-      .fit_distribution
+      .fit_distribution,
+      strata
     )) |> 
     dplyr::group_by(Distribution) |> 
     dplyr::mutate(Model_Data = purrr::map(
@@ -57,11 +58,13 @@ plot.fitted_distribution <- function(fit,
     rlang::abort("`fit` must be of class fitted_distribution")
   }
   
-  
   df <- fit |> tidyr::unnest(Model_Data) |> 
-    dplyr::select(-c(Data, Model)) |> 
-    dplyr::rename(Treatment = `data$Treatment`) |> 
-    dplyr::mutate(across(Treatment, as.factor))
+    select(-c(Data, Model))
+  if (!("Treatment" %in% colnames(df))) {
+    # This currently doesn't work for strata = 1.
+    df <- df |> dplyr::rename(Treatment = `Data$Treatment`)
+  } 
+  df <- df |> dplyr::mutate(across(Treatment, as.factor))
   
   p <- ggplot2::ggplot(df)
   
