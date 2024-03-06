@@ -111,23 +111,25 @@ plot.fitted_distribution <- function(fit,
 #' 
 #' @param fit A `PCNMA::fitted_distributions` object.
 #' 
+#' @export
+#' 
 summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE, 
                                         strata = c("Colucci", "Cunningham", "Oettle", "Kindler", "RochaLima")) {
-  df <- tidyr::tibble(Distribution = fit$Distribution)
   
   if (AIC) {
-    df <- df |> 
-      dplyr::mutate(AIC = purrr::map_dbl(
-        fit$Model,
+    df <- fit |> 
+      dplyr::select(c(Distribution, Model)) |> 
+      dplyr::mutate(AIC = purrr::map(
+        Model,
         .get_attribute,
         "AIC"
       ))
   }
   
   if (median) {
-    df <- df |> 
+    df <- fit |> 
       dplyr::mutate(Median = purrr::map(
-        fit$Model,
+        Model,
         flexsurv:::predict.flexsurvreg,
         p = 0.5,
         type = "quantile",
@@ -138,7 +140,7 @@ summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE,
       dplyr::select(-c(.quantile)) |> 
       tidyr::pivot_wider(names_from = Study, values_from = Median)
   }
-
+  
   df
 }
  
