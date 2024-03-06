@@ -24,14 +24,14 @@ km_estimates <- function(TTE, strata = "1"){
 #' @returns A plotted km curve
 #' 
 #' @export
-plot.km_obj <- function(fit, break.x.by = 5, xMax = 40, risktable.height = 0.3, ...){
+plot.km_obj <- function(fit, type = "survival", break.x.by = 5, xMax = 40, risktable.height = 0.3, ...){
   if (!inherits(fit, "km_obj")) {
     rlang::abort("fit object is not of class 'km_obj'")
   }
   
   ggsurvfit::ggsurvfit(
     fit,
-    type = "survival",
+    type = type,
     linetype_aes = "strata"
   ) + 
     ggsurvfit::add_censor_mark() +
