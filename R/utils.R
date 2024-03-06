@@ -18,60 +18,16 @@ nice_parametric_dists <- list(
   "Weibull" = "weibull"
 )
 
-nice_parametric_paramlist <- c(
-  "rate",
-  "tx",
-  "shape",
-  "rate",
-  "tx",
-  "mu",
-  "sigma",
-  "Q",
-  "tx",
-  "shape",
-  "rate",
-  "tx",
-  "shape", 
-  "scale",
-  "tx",
-  "meanlog",
-  "sdlog",
-  "tx",
-  "shape",
-  "scale",
-  "tx")
-
 .get_attribute <- function(Model, attribute) {
   return(Model[[attribute]])
 }
 
 # For use with ggsurvfit
 .gen_surv_formula <- function(strata) {
-  as.formula(paste("Surv(time = time, event = status, type = 'right') ~ ", paste0(strata, collapse = "+")))
+  as.formula(paste("survival::Surv(time = time, event = status, type = 'right') ~ ", paste0(strata, collapse = "+")))
 }
 
 # For use with flexsurv
 .gen_surv_formula2 <- function(strata) {
-  as.formula(paste("Surv(time, status) ~ ", paste0(strata, collapse = "+")))
-}
-
-
-boxTid <- function(x, p) {
-  ifelse(p == 0, return(log(x)), return(x^p))
-}
-
-H <- function(x, P, zeta, j){
-  if (P[j] == 0) {return(1)}
-  
-  if (P[j] != P[j - 1]) {return(boxTid(x, P[j]))}
-  
-  if (P[j] == P[j - 1]) {return(log(x)*H(x, P, zeta, j - 1))}
-}
-
-phi <- function(x, m, P, zeta){
-  vals <- c()
-  for (j in 2:m) {
-    vals[j] <- H(x, P, zeta, j)
-  }
-  return(vals)
+  as.formula(paste("survival::Surv(time, status) ~ ", paste0(strata, collapse = "+")))
 }
