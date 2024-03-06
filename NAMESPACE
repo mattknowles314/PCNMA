@@ -3,6 +3,7 @@
 S3method(coef,fitted_distribution)
 S3method(plot,fitted_distribution)
 S3method(plot,km_obj)
+S3method(summary,fitted_distribution)
 S3method(summary,km_obj)
 export(H)
 export(boxTid)
