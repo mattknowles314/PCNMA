@@ -13,6 +13,34 @@ km_estimates <- function(TTE, strata = "1"){
   out
 }
 
+#' Hazard Ratio
+#'
+#' @param TTE A TTE dataframe
+#' @param strata A strata variable
+#' 
+#'
+#' @export
+hr <- function(TTE, strata = "1") {
+  out <- survival::coxph(
+    formula = .gen_surv_formula(strata),
+    data = TTE |> 
+      mutate(status = ifelse(censored == FALSE, 1, 0)) |> 
+      mutate(across(Treatment, as.factor))
+  )
+  class(out) <- c("hr_obj", class(out))
+  out
+}
+
+#' Summarise a Hazard Ratio
+#'
+#'
+#'
+summary.hr_obj <- function(hr) {
+  out <- survival:::summary.coxph(hr) 
+}
+
+
+
 #' Plot a KM curve
 #' 
 #' @param fit A `PCNMA::km_obj` object
@@ -37,7 +65,7 @@ plot.km_obj <- function(fit, type = "survival", risk.table = TRUE, break.x.by = 
     linetype_aes = "strata"
   ) + ggsurvfit::add_censor_mark()
   
-  if (risk.table){
+  if (risk.table) {
     p <- p + ggsurvfit::add_risktable(
       risktable_stats = "n.risk",
       risktable_group = "strata",
@@ -64,14 +92,14 @@ summary.km_obj <- function(fit, ...) {
     rlang::abort("fit object is not of class 'km_obj'")
   }
   
-  df <- survival:::summary.survfit(fit)[["table"]] 
-  df <- data.frame(df)
+  df <- data.frame(survival:::summary.survfit(fit)[["table"]])
   
   summary_table <- data.frame(Study = rownames(df)) |> 
     dplyr::mutate(Study = stringr::str_remove(Study, "Study=")) |> 
     dplyr::mutate(Median = df[["median"]]) |> 
     dplyr::mutate(MedianL95 = df[["X0.95LCL"]]) |> 
-    dplyr::mutate(MedianU95 = df[["X0.95UCL"]])
+    dplyr::mutate(MedianU95 = df[["X0.95UCL"]]) |> 
+    dplyr::mutate(Events = df[["events"]])
   
   summary_table
 }

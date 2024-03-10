@@ -61,8 +61,9 @@ fit_distribution <- function(distributions, data, strata = "Treatment", maxT = 6
 plot.fitted_distribution <- function(fit, 
                                       CI = FALSE, 
                                       km = FALSE, 
-                                      alpha = 0.5, 
+                                      km_alpha = 0.5,
                                       linewidth = 1, 
+                                      facet_by = "Treatment",
                                       ...){
   if (!inherits(fit, "fitted_distribution")) {
     rlang::abort("`fit` must be of class fitted_distribution")
@@ -76,7 +77,12 @@ plot.fitted_distribution <- function(fit,
   # } 
   # df <- df |> dplyr::mutate(across(Treatment, as.factor))
   
-  p <- ggplot2::ggplot(df)
+  p <- ggplot2::ggplot(df) +
+    ggplot2::geom_line(ggplot2::aes(x = time, y = est, colour = Distribution), 
+                       linewidth = linewidth, linetype = 2) +
+    ggplot2::labs(x = "Time",
+                  y = "Survival") +
+    ggplot2::facet_grid(facet_by)
   
   if (CI) {
     p <- p +
@@ -89,32 +95,26 @@ plot.fitted_distribution <- function(fit,
   }
   
   if (km) {
-    IPD <- fit$Data[[1]]
-    survfit <- ggsurvfit::survfit2(.gen_surv_formula("Study"), data = IPD)
+    IPD <- bind_rows(fit$Data[[1]], fit$Data[[8]]) # This is hardcoded right now, but shouldnt be!
+    survfit <- ggsurvfit::survfit2(.gen_surv_formula("Treatment"), data = IPD)
     df2 <- survminer::surv_summary(survfit, data = IPD) |> 
-      dplyr::select(time, surv, Study)
+      dplyr::select(time, surv, Treatment)
     p <- p +
-      ggplot2::geom_line(data = df2, 
-                         ggplot2::aes(x = time, y = surv))
+      ggplot2::geom_line(data = df2, ggplot2::aes(x = time, y = surv), alpha = km_alpha)
   }
 
-  p <- p +
-    ggplot2::geom_line(ggplot2::aes(x = time, y = est, colour = Distribution), 
-                       linewidth = linewidth) +
-    ggplot2::labs(x = "Time",
-         y = "Survival") 
-    #ggplot2::facet_grid(~Study)
   p
 }
 
 #' Summary of a set of fitted models
 #' 
 #' @param fit A `PCNMA::fitted_distributions` object.
+#' @param AIC Returns the AIC scores for a set of models
+#' @param median Returns a table of median estimates for a set of models
 #' 
 #' @export
 #' 
-summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE, 
-                                        strata = c("Colucci", "Cunningham", "Oettle", "Kindler", "RochaLima")) {
+summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE) {
   
   if (AIC) {
     df <- fit |> 
@@ -128,22 +128,22 @@ summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE,
   
   if (median) {
     df <- fit |> 
+      dplyr::select(-c(Data, Model_Data)) |> 
       dplyr::mutate(Median = purrr::map(
         Model,
-        flexsurv:::predict.flexsurvreg,
-        p = 0.5,
-        type = "quantile",
-        newdata = data.frame(Study = strata))) |> 
+        flexsurv:::summary.flexsurvreg,
+        type = "median",
+        tidy = TRUE)) |> 
       tidyr::unnest(Median) |> 
-      dplyr::mutate(Study = rep(strata, length(unique(fit$Model)))) |> 
-      dplyr::rename(Median = .pred_quantile) |> 
-      dplyr::select(-c(.quantile)) |> 
-      tidyr::pivot_wider(names_from = Study, values_from = Median)
+      dplyr::select(-c(Model)) |> 
+      dplyr::rename(Median = est) |> 
+      dplyr::rename(L95 = lcl) |> 
+      dplyr::rename(U95 = ucl)
   }
   
   df
 }
- 
+  
 #' Coefficients of fitted models
 #' 
 #' @param fit A [PCNMA::fitted_distribution] object
@@ -161,3 +161,10 @@ coef.fitted_distribution <- function(fit, studies, ...){
   
   df
 }
+
+#' Hazard ratios of a fitted model
+#'
+#' @param fit A `PCNMA::fitted_distributions` object
+#'
+#'
+#' 

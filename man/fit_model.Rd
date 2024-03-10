@@ -4,7 +4,7 @@
 \alias{fit_model}
 \title{Run an NMA}
 \usage{
-fit_model(network, L, link = "log", iter, seed)
+fit_model(network, effects, iter, seed = 1, chains = 4)
 }
 \arguments{
 \item{network}{A [multinma::nma_data] object}

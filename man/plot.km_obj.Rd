@@ -4,10 +4,22 @@
 \alias{plot.km_obj}
 \title{Plot a KM curve}
 \usage{
-\method{plot}{km_obj}(fit, break.x.by = 5, xMax = 40, risktable.height = 0.3, ...)
+\method{plot}{km_obj}(
+  fit,
+  type = "survival",
+  risk.table = TRUE,
+  break.x.by = 5,
+  xMax = 40,
+  risktable.height = 0.3,
+  ...
+)
 }
 \arguments{
-\item{fit}{A [PCNMA::km_obj] object}
+\item{fit}{A `PCNMA::km_obj` object}
+
+\item{type}{See `ggsurvfit::ggsurvfit` for details.}
+
+\item{risk.table}{Add numbers at risk?}
 
 \item{break.x.by}{A numeric value for splitting x axis}
 

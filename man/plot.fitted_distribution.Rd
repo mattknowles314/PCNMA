@@ -4,7 +4,15 @@
 \alias{plot.fitted_distribution}
 \title{Plot a fitted distributions object}
 \usage{
-\method{plot}{fitted_distribution}(fit, CI = FALSE, km = FALSE, alpha = 0.5, linewidth = 1, ...)
+\method{plot}{fitted_distribution}(
+  fit,
+  CI = FALSE,
+  km = FALSE,
+  km_alpha = 0.5,
+  linewidth = 1,
+  facet_by = "Treatment",
+  ...
+)
 }
 \arguments{
 \item{fit}{A `PCNMA::fitted_distribution` object}
