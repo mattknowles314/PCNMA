@@ -62,7 +62,7 @@ plot.km_obj <- function(fit, type = "survival", risk.table = TRUE, break.x.by = 
   p <- ggsurvfit::ggsurvfit(
     fit,
     type = type,
-    linetype_aes = "strata"
+    linetype_aes = "strata",
   ) + ggsurvfit::add_censor_mark()
   
   if (risk.table) {

@@ -18,6 +18,14 @@ nice_parametric_dists <- list(
   "Weibull" = "weibull"
 )
 
+parsForStan <- c(
+  "d[GEM-AXI]",
+  "d[GEM-CAP]",
+  "d[GEM-CIS]",
+  "d[GEM-IRI]",
+  "d[GEM-PEM]"
+)
+
 .get_attribute <- function(Model, attribute) {
   return(Model[[attribute]])
 }
@@ -31,3 +39,4 @@ nice_parametric_dists <- list(
 .gen_surv_formula2 <- function(strata) {
   as.formula(paste("survival::Surv(time, status) ~ ", paste0(strata, collapse = "+")))
 }
+

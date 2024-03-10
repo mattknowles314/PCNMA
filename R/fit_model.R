@@ -16,5 +16,19 @@ fit_model <- function(network, effects, iter, seed = 1, chains = 4){
     chains = chains,
     seed = seed
   )
+  class(out) <- c("fitted_model", class(out))
   out
+}
+
+#' Plots for an NMA model
+#'
+#' @param model A `PancSurv::fitted_model` obj
+#' @param type Type of plot to produce
+#'
+#'
+#' @export
+plot.fitted_model <- function(model, type = "trace", pars = parsForStan) {
+  if (type == "trace") {
+    rstan::traceplot(model[["stanfit"]], pars = pars)
+  } 
 }
