@@ -10,8 +10,6 @@ fit_model <- function(network, effects, iter, seed = 1, chains = 4){
   out <- multinma::nma(
     network = network,
     trt_effects = effects,
-    prior_intercept = normal(scale = 100),
-    prior_trt = normal(scale = 5),
     iter = iter,
     chains = chains,
     seed = seed
@@ -22,13 +20,35 @@ fit_model <- function(network, effects, iter, seed = 1, chains = 4){
 
 #' Plots for an NMA model
 #'
-#' @param model A `PancSurv::fitted_model` obj
+#' @param model A `PancSurv::fitted_model` object
 #' @param type Type of plot to produce
 #'
 #'
 #' @export
-plot.fitted_model <- function(model, type = "trace", pars = parsForStan) {
+plot.fitted_model <- function(model, type = "trace", pars = parsForStan, prob = 0.95, ordered = FALSE, xLims = NULL) {
   if (type == "trace") {
-    rstan::traceplot(model[["stanfit"]], pars = pars)
-  } 
+    p <- rstan::traceplot(model[["stanfit"]], pars = pars)
+  }
+  
+  if (type == "forest") {
+    post <- as.array(model[["stanfit"]])
+    p <- bayesplot::mcmc_intervals(post,
+                              pars = pars,
+                              prob = prob) + ggplot2::theme_bw()
+    if (!is.null(xLims)) {p <- p + scale_x_continuous(limits = xLims)}
+  }
+  
+  p
+}
+
+#' Summary of a  NMA model
+#'
+#' @param model A `PancSurv::fitted_model` object
+#' 
+#' @export
+summary.fitted_model <- function(model, dic = FALSE) {
+  if (dic) {
+    out <- multinma::dic(model)
+  }
+  out
 }
