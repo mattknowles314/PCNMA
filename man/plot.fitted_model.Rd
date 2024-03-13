@@ -4,10 +4,17 @@
 \alias{plot.fitted_model}
 \title{Plots for an NMA model}
 \usage{
-\method{plot}{fitted_model}(model, type = "trace", pars = parsForStan)
+\method{plot}{fitted_model}(
+  model,
+  type = "trace",
+  pars = parsForStan,
+  prob = 0.95,
+  ordered = FALSE,
+  xLims = NULL
+)
 }
 \arguments{
-\item{model}{A `PancSurv::fitted_model` obj}
+\item{model}{A `PancSurv::fitted_model` object}
 
 \item{type}{Type of plot to produce}
 }
