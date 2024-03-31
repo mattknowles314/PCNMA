@@ -40,3 +40,6 @@ parsForStan <- c(
   as.formula(paste("survival::Surv(time, status) ~ ", paste0(strata, collapse = "+")))
 }
 
+.trapez_rule <- function(S, dt = 0.1) {
+  (dt/2)*(S[1] + S[length(S)] + 2*(sum(S[-c(1, length(S))])))
+}

@@ -115,7 +115,6 @@ plot.fitted_distribution <- function(fit,
 #' @export
 #' 
 summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE) {
-  
   if (AIC) {
     df <- fit |> 
       dplyr::select(c(Distribution, Model)) |> 
@@ -167,4 +166,25 @@ coef.fitted_distribution <- function(fit, studies, ...){
 #' @param fit A `PCNMA::fitted_distributions` object
 #'
 #'
+
+#' RMST of fitted models
 #' 
+#' @param fit A [PCNMA::fitted_distribution] objeect,
+#' @param x Time to calculate RMST for
+#' @param ... For S3 consistency
+#' 
+#' @export
+#' 
+rmst <- function(fit, x, ...) {
+  d <- fit[["Model_Data"]] |> 
+    tibble::enframe() |> 
+    tidyr::unnest() |> 
+    dplyr::filter(time <= x)
+  out <- data.frame("Estimate" = .trapez_rule(d$est),
+                    "LCL" = .trapez_rule(d$lcl),
+                    "UCL" = .trapez_rule(d$ucl),
+                    "Timepoint" = x) 
+  out
+}
+
+

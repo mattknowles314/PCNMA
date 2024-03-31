@@ -6,11 +6,13 @@
 #' @param ... Other parameters to pass to [multinma::nma]
 #'  
 #' @export
-fit_model <- function(network, effects, iter, seed = 1, chains = 4){
+fit_model <- function(network, effects, iter, seed = 1, chains = 4,
+                      prior_trt = normal(scale = 5)){
   out <- multinma::nma(
     network = network,
     trt_effects = effects,
     iter = iter,
+    prior_trt = prior_trt,
     chains = chains,
     seed = seed
   )
