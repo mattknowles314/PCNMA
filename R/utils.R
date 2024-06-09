@@ -43,3 +43,9 @@ parsForStan <- c(
 .trapez_rule <- function(S, dt = 0.1) {
   (dt/2)*(S[1] + S[length(S)] + 2*(sum(S[-c(1, length(S))])))
 }
+
+.clean <- function(model, saveName) {
+  saveRDS(model, file = paste0("~/Documents/MScThesis/Results/Models/OS/", saveName, ".RDs"))
+  rm(model)
+  gc()
+}
