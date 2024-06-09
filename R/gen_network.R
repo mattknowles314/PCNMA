@@ -6,14 +6,14 @@
 #' @returns A [mutlinma::nma_data] object
 #' 
 #' @export
-gen_network <- function(net_data, ref, y = "RMST"){
-  net <- multinma::set_agd_arm(
-    net_data,
-    study = Study,
-    trt = Treatment,
-    y = ifelse(y == "RMST", Estimate, Median),
-    se = SE, 
-    sample_size = n,
-    trt_ref = ref)
+gen_network <- function(net_data, ref, covs){
+  net <- multinma::set_agd_surv(
+      net_data,
+      study = Study,
+      trt = Treatment,
+      Surv = Surv(time, status),
+      trt_ref = ref,
+      covariates = covs
+  )
   net
 }

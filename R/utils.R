@@ -32,12 +32,12 @@ parsForStan <- c(
 
 # For use with ggsurvfit
 .gen_surv_formula <- function(strata) {
-  as.formula(paste("survival::Surv(time = time, event = status, type = 'right') ~ ", paste0(strata, collapse = "+")))
+  stats::as.formula(paste("survival::Surv(time = time, event = status, type = 'right') ~ ", paste0(strata, collapse = "+")))
 }
 
 # For use with flexsurv
 .gen_surv_formula2 <- function(strata) {
-  as.formula(paste("survival::Surv(time, status) ~ ", paste0(strata, collapse = "+")))
+  stats::as.formula(paste("survival::Surv(time, status) ~ ", paste0(strata, collapse = "+")))
 }
 
 .trapez_rule <- function(S, dt = 0.1) {

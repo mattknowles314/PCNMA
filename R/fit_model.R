@@ -7,20 +7,22 @@
 #'  
 #' @export
 fit_model <- function(network, effects, iter, seed = 1, chains = 4,
-                      prior_trt = normal(scale = 5)){
+                      llhood = "weibull"){
   out <- multinma::nma(
     network = network,
     trt_effects = effects,
     iter = iter,
-    prior_trt = prior_trt,
     chains = chains,
-    seed = seed
+    likelihood = llhood,
+    seed = seed,
+    QR = TRUE,
+    aux_by = c(".study", ".trt")
   )
   class(out) <- c("fitted_model", class(out))
   out
 }
 
-#' Plots for an NMA model
+#' Plots for an NMA modelr
 #'
 #' @param model A `PancSurv::fitted_model` object
 #' @param type Type of plot to produce

@@ -1,4 +1,4 @@
-Package: PancSurv
+Package: PCNMA
 Type: Package
 Title: Parametric and Non-Parametric Survival Models in Pancreatic Cancer Trials
 Version: 0.1
