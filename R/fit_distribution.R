@@ -82,8 +82,8 @@ plot.fitted_distribution <- function(fit,
   p <- ggplot2::ggplot(df) +
     ggplot2::geom_line(ggplot2::aes(x = time, y = est, colour = Distribution), 
                        linewidth = linewidth, linetype = linetype) +
-    ggplot2::labs(x = "Time",
-                  y = "Survival") +
+    ggplot2::labs(x = "Time (Months)",
+                  y = "Overall Survival") +
     ggplot2::facet_grid(facet_by)
   
   if (CI) {
