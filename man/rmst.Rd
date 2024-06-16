@@ -7,7 +7,7 @@
 rmst(fit, x, ...)
 }
 \arguments{
-\item{fit}{A [PCNMA::fitted_distribution] objeect,}
+\item{fit}{A [PCNMA::fitted_distribution] object}
 
 \item{x}{Time to calculate RMST for}
 

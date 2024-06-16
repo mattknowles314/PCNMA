@@ -14,7 +14,7 @@
 )
 }
 \arguments{
-\item{model}{A `PancSurv::fitted_model` object}
+\item{model}{A [PCNMA::fitted_model] object}
 
 \item{type}{Type of plot to produce}
 }

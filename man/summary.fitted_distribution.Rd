@@ -7,7 +7,7 @@
 \method{summary}{fitted_distribution}(fit, AIC = FALSE, median = FALSE)
 }
 \arguments{
-\item{fit}{A `PCNMA::fitted_distributions` object.}
+\item{fit}{A [PCNMA::fitted_distribution] object.}
 
 \item{AIC}{Returns the AIC scores for a set of models}
 

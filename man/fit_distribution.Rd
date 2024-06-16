@@ -4,7 +4,12 @@
 \alias{fit_distribution}
 \title{Fit survival distributions to a dataset.}
 \usage{
-fit_distribution(distributions, data, strata = "Treatment", maxT = 60)
+fit_distribution(
+  distributions = nice_parametric_dists,
+  data,
+  strata = "Treatment",
+  maxT = 60
+)
 }
 \arguments{
 \item{distributions}{A list of distributions}

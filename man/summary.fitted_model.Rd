@@ -2,13 +2,13 @@
 % Please edit documentation in R/fit_model.R
 \name{summary.fitted_model}
 \alias{summary.fitted_model}
-\title{Summary of a  NMA model}
+\title{Summary of an NMA model}
 \usage{
-\method{summary}{fitted_model}(model, dic = FALSE)
+\method{summary}{fitted_model}(model, likelihood, effect)
 }
 \arguments{
-\item{model}{A `PancSurv::fitted_model` object}
+\item{model}{A [PCNMA::fitted_model] object}
 }
 \description{
-Summary of a  NMA model
+Summary of an NMA model
 }

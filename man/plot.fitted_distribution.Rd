@@ -8,8 +8,10 @@
   fit,
   CI = FALSE,
   km = FALSE,
-  km_alpha = 0.5,
-  linewidth = 1,
+  km_alpha = 1,
+  linewidth = 0.75,
+  linetype = "dashed",
+  theme = "bw",
   facet_by = "Treatment",
   ...
 )

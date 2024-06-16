@@ -153,6 +153,8 @@ summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE) {
   
 #' Coefficients of fitted models
 #' 
+#' Returns the model coefficients for a given survival model
+#' 
 #' @param fit A [PCNMA::fitted_distribution] object
 #' @param ... for S3 consistency
 #' 
@@ -162,9 +164,6 @@ coef.fitted_distribution <- function(fit, studies, ...){
   coefList <- purrr::map(fit$Model, .get_attribute, "coefficients")
   df <- stack(coefList)
   names(df) <- c("Value", "Distribution")
-  #df <- df |> 
-  #  dplyr::mutate(term = nice_parametric_paramlist) |> 
-  #  dplyr::select(Distribution, term, Value)
   
   df
 }
@@ -175,7 +174,9 @@ coef.fitted_distribution <- function(fit, studies, ...){
 #'
 #'
 
-#' RMST of fitted models
+#' RMST of fitted survival models
+#' 
+#' Returns the RMST estimate for a fitted survival model up to a time x.
 #' 
 #' @param fit A [PCNMA::fitted_distribution] object
 #' @param x Time to calculate RMST for

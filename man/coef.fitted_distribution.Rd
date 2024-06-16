@@ -12,5 +12,5 @@
 \item{...}{for S3 consistency}
 }
 \description{
-Coefficients of fitted models
+Returns the model coefficients for a given survival model
 }
