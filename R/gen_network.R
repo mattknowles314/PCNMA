@@ -13,7 +13,8 @@ gen_network <- function(net_data, ref, covs){
       trt = Treatment,
       Surv = Surv(time, status),
       trt_ref = ref,
-      covariates = covs
+      covariates = covs,
+      trt_class = trtclass
   )
   net
 }

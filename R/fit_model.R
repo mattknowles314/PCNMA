@@ -1,22 +1,23 @@
 #' Run an NMA
 #'
 #' @param network A [multinma::nma_data] object
-#' @param L Character string specifying a likelihood function
+#' @param llhood Character string specifying a likelihood function
 #' @param link Character string specifying a link function (defaults to "log")
 #' @param ... Other parameters to pass to [multinma::nma]
 #'  
 #' @export
-fit_model <- function(network, effects, iter, seed = 1, chains = 4,
+fit_model <- function(network, effects, seed = 1, chains = 4,
                       llhood = "weibull"){
   out <- multinma::nma(
     network = network,
     trt_effects = effects,
-    iter = iter,
     chains = chains,
     likelihood = llhood,
     seed = seed,
+    prior_intercept = normal(0, 100),
+    prior_trt = normal(0, 10),
     QR = TRUE,
-    aux_by = c(".study", ".trt")
+    aux_regression = ~.trt
   )
   class(out) <- c("fitted_model", class(out))
   out
@@ -50,9 +51,11 @@ plot.fitted_model <- function(model, type = "trace", pars = parsForStan, prob = 
 #' @param model A `PancSurv::fitted_model` object
 #' 
 #' @export
-summary.fitted_model <- function(model, dic = FALSE) {
+summary.fitted_model <- function(model, dic = FALSE, looic = FALSE) {
   if (dic) {
     out <- multinma::dic(model)
+  } else if (looic) {
+    out <- loo::loo(model)
   }
   out
 }

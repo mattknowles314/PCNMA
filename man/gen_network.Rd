@@ -4,7 +4,7 @@
 \alias{gen_network}
 \title{Generate a network of evidence}
 \usage{
-gen_network(net_data, ref, y = "RMST")
+gen_network(net_data, ref, covs)
 }
 \arguments{
 \item{net_data}{A dataset created by [PCNMA::gen_network_data]}

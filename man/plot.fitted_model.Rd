@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit_model.R
 \name{plot.fitted_model}
 \alias{plot.fitted_model}
-\title{Plots for an NMA model}
+\title{Plots for an NMA modelr}
 \usage{
 \method{plot}{fitted_model}(
   model,
@@ -19,5 +19,5 @@
 \item{type}{Type of plot to produce}
 }
 \description{
-Plots for an NMA model
+Plots for an NMA modelr
 }

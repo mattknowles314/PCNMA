@@ -28,7 +28,7 @@
 #' @returns A dataframe with fitted values
 #'
 #' @export
-fit_distribution <- function(distributions, data, strata = "Treatment", maxT = 60) {
+fit_distribution <- function(distributions = nice_parametric_dists, data, strata = "Treatment", maxT = 60) {
   df <- tidyr::tibble(Distribution = names(distributions), Data = list(data)) |> 
     dplyr::mutate(Model = purrr::map2( 
       distributions[Distribution],
@@ -61,8 +61,10 @@ fit_distribution <- function(distributions, data, strata = "Treatment", maxT = 6
 plot.fitted_distribution <- function(fit, 
                                       CI = FALSE, 
                                       km = FALSE, 
-                                      km_alpha = 0.5,
-                                      linewidth = 1, 
+                                      km_alpha = 1,
+                                      linewidth = 0.75, 
+                                      linetype = "dashed",
+                                      theme = "bw",
                                       facet_by = "Treatment",
                                       ...){
   if (!inherits(fit, "fitted_distribution")) {
@@ -79,7 +81,7 @@ plot.fitted_distribution <- function(fit,
   
   p <- ggplot2::ggplot(df) +
     ggplot2::geom_line(ggplot2::aes(x = time, y = est, colour = Distribution), 
-                       linewidth = linewidth, linetype = 2) +
+                       linewidth = linewidth, linetype = linetype) +
     ggplot2::labs(x = "Time",
                   y = "Survival") +
     ggplot2::facet_grid(facet_by)
@@ -95,14 +97,18 @@ plot.fitted_distribution <- function(fit,
   }
   
   if (km) {
-    IPD <- bind_rows(fit$Data[[1]], fit$Data[[8]]) # This is hardcoded right now, but shouldnt be!
+    IPD <- bind_rows(fit$Data[[1]], fit$Data[[1]]) # This is hardcoded right now, but shouldnt be!
     survfit <- ggsurvfit::survfit2(.gen_surv_formula("Treatment"), data = IPD)
     df2 <- survminer::surv_summary(survfit, data = IPD) |> 
       dplyr::select(time, surv, Treatment)
     p <- p +
-      ggplot2::geom_line(data = df2, ggplot2::aes(x = time, y = surv), alpha = km_alpha)
+      ggplot2::geom_step(data = df2, ggplot2::aes(x = time, y = surv), alpha = km_alpha)
   }
-
+  
+  if (theme == "bw") {
+    p <- p + theme_bw()
+  }
+  
   p
 }
 
@@ -118,11 +124,13 @@ summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE) {
   if (AIC) {
     df <- fit |> 
       dplyr::select(c(Distribution, Model)) |> 
-      dplyr::mutate(AIC = purrr::map(
+      dplyr::mutate(AIC = purrr::map_dbl(
         Model,
         .get_attribute,
         "AIC"
-      ))
+      )) |> 
+      tidyr::unnest(AIC) |> 
+      select(-c(Model)) 
   }
   
   if (median) {

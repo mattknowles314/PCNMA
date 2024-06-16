@@ -4,19 +4,12 @@
 \alias{fit_model}
 \title{Run an NMA}
 \usage{
-fit_model(
-  network,
-  effects,
-  iter,
-  seed = 1,
-  chains = 4,
-  prior_trt = normal(scale = 5)
-)
+fit_model(network, effects, iter, seed = 1, chains = 4, llhood = "weibull")
 }
 \arguments{
 \item{network}{A [multinma::nma_data] object}
 
-\item{L}{Character string specifying a likelihood function}
+\item{llhood}{Character string specifying a likelihood function}
 
 \item{link}{Character string specifying a link function (defaults to "log")}
 
