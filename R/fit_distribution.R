@@ -114,7 +114,7 @@ plot.fitted_distribution <- function(fit,
 
 #' Summary of a set of fitted models
 #' 
-#' @param fit A `PCNMA::fitted_distributions` object.
+#' @param fit A [PCNMA::fitted_distribution] object.
 #' @param AIC Returns the AIC scores for a set of models
 #' @param median Returns a table of median estimates for a set of models
 #' 
@@ -171,13 +171,13 @@ coef.fitted_distribution <- function(fit, studies, ...){
 
 #' Hazard ratios of a fitted model
 #'
-#' @param fit A `PCNMA::fitted_distributions` object
+#' @param fit A [PCNMA::fitted_distributions] object
 #'
 #'
 
 #' RMST of fitted models
 #' 
-#' @param fit A [PCNMA::fitted_distribution] objeect,
+#' @param fit A [PCNMA::fitted_distribution] object
 #' @param x Time to calculate RMST for
 #' @param ... For S3 consistency
 #' 

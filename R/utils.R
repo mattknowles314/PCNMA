@@ -21,9 +21,10 @@ nice_parametric_dists <- list(
 parsForStan <- c(
   "d[GEM-AXI]",
   "d[GEM-CAP]",
-  "d[GEM-CIS]",
   "d[GEM-IRI]",
-  "d[GEM-PEM]"
+  "d[GEM-PEM]",
+  "d[GEM-NAB]",
+  "d[GEM-SOR]"
 )
 
 .get_attribute <- function(Model, attribute) {

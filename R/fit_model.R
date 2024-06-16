@@ -25,7 +25,7 @@ fit_model <- function(network, effects, seed = 1, chains = 4,
 
 #' Plots for an NMA modelr
 #'
-#' @param model A `PancSurv::fitted_model` object
+#' @param model A [PCNMA::fitted_model] object
 #' @param type Type of plot to produce
 #'
 #'
@@ -46,16 +46,17 @@ plot.fitted_model <- function(model, type = "trace", pars = parsForStan, prob = 
   p
 }
 
-#' Summary of a  NMA model
+#' Summary of an NMA model
 #'
-#' @param model A `PancSurv::fitted_model` object
+#' @param model A [PCNMA::fitted_model] object
 #' 
 #' @export
-summary.fitted_model <- function(model, dic = FALSE, looic = FALSE) {
-  if (dic) {
-    out <- multinma::dic(model)
-  } else if (looic) {
-    out <- loo::loo(model)
-  }
+summary.fitted_model <- function(model, likelihood, effect) {
+  a <- try({multinma::dic(model)[["dic"]]})
+  if (inherits(a, "try-error")) {a <- NA}
+  b <- try({loo::loo(model)[["looic"]]})
+  if (inherits(b, "try-error")) {b <- NA}
+  out <- tibble("Likelihood" = rep(likelihood, 2), "Effect" = rep(effect, 2), "IC" = c("DIC", "LOOIC"), "Result" = c(a, b)) |> 
+    tidyr::pivot_wider(names_from = "IC", values_from = "Result")
   out
 }
