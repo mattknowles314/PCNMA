@@ -1,12 +1,16 @@
 #' Run an NMA
 #'
 #' @param network A [multinma::nma_data] object
+#' @param effects A string specifiying the effects, either "fixed" or "random"
+#' @param seed Random number generating seed
+#' @param chains Number of chains used by Stan
+#' @param iter Number of iterations
 #' @param llhood Character string specifying a likelihood function
-#' @param link Character string specifying a link function (defaults to "log")
 #' @param ... Other parameters to pass to [multinma::nma]
 #'  
 #' @export
 fit_model <- function(network, effects, seed = 1, chains = 4,
+                      iter = 1000, 
                       llhood = "weibull"){
   out <- multinma::nma(
     network = network,
@@ -14,10 +18,11 @@ fit_model <- function(network, effects, seed = 1, chains = 4,
     chains = chains,
     likelihood = llhood,
     seed = seed,
+    iter = iter,
     prior_intercept = normal(0, 100),
     prior_trt = normal(0, 10),
     QR = TRUE,
-    aux_regression = ~.trt
+    aux_regression = ~.trt + Male
   )
   class(out) <- c("fitted_model", class(out))
   out
@@ -30,7 +35,7 @@ fit_model <- function(network, effects, seed = 1, chains = 4,
 #'
 #'
 #' @export
-plot.fitted_model <- function(model, type = "trace", pars = parsForStan, prob = 0.95, ordered = FALSE, xLims = NULL) {
+plot.fitted_model <- function(model, type = "trace", pars = parsForStan, prob = 0.95, ordered = FALSE, xLims = NULL, study) {
   if (type == "trace") {
     p <- rstan::traceplot(model[["stanfit"]], pars = pars)
   }
@@ -43,7 +48,19 @@ plot.fitted_model <- function(model, type = "trace", pars = parsForStan, prob = 
     if (!is.null(xLims)) {p <- p + scale_x_continuous(limits = xLims)}
   }
   
-  p
+  if (type == "survival") {
+    f <- plot(predict(model, type = type))
+    d <- f$data %>% filter(.study == study)
+    f$data <- d
+    f
+    f <- f +
+      theme(legend.position = "top", legend.box.spacing = unit(0, "lines")) +
+      labs(x = "Time (Months)", y = "Overall Survival") +
+      theme_bw()
+    return(f)
+  }
+  
+  return(p)
 }
 
 #' Summary of an NMA model
