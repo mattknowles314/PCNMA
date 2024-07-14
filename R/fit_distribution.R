@@ -28,7 +28,7 @@
 #' @returns A dataframe with fitted values
 #'
 #' @export
-fit_distribution <- function(distributions = nice_parametric_dists, data, strata = "Treatment", maxT = 60) {
+fit_distribution <- function(distributions = nice_parametric_dists, data, strata = 1, maxT = 60) {
   df <- tidyr::tibble(Distribution = names(distributions), Data = list(data)) |> 
     dplyr::mutate(Model = purrr::map2( 
       distributions[Distribution],
@@ -65,7 +65,7 @@ plot.fitted_distribution <- function(fit,
                                       linewidth = 0.75, 
                                       linetype = "dashed",
                                       theme = "bw",
-                                      facet_by = "Treatment",
+                                      facet_by = NULL,
                                       ...){
   if (!inherits(fit, "fitted_distribution")) {
     rlang::abort("`fit` must be of class fitted_distribution")
@@ -83,8 +83,7 @@ plot.fitted_distribution <- function(fit,
     ggplot2::geom_line(ggplot2::aes(x = time, y = est, colour = Distribution), 
                        linewidth = linewidth, linetype = linetype) +
     ggplot2::labs(x = "Time (Months)",
-                  y = "Overall Survival") +
-    ggplot2::facet_grid(facet_by)
+                  y = "Overall Survival") 
   
   if (CI) {
     p <- p +
