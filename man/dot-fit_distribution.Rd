@@ -11,11 +11,11 @@
 
 \item{data}{An IPD dataset}
 
-\item{strata}{Strata for the RHS of the `survival::Surv` function}
+\item{strata}{Strata for the RHS of the [survival::Surv] function}
 }
 \value{
 A [flexsurv::flexsurvreg] object
 }
 \description{
-This function is a wrapper on `flexsurv::flexsurvreg`, and fits a single distribution to the specified data.
+This function is a wrapper on [flexsurv::flexsurvreg], and fits a single distribution to the specified data.
 }

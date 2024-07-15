@@ -7,7 +7,7 @@
 fit_distribution(
   distributions = nice_parametric_dists,
   data,
-  strata = "Treatment",
+  strata = 1,
   maxT = 60
 )
 }
@@ -24,5 +24,5 @@ fit_distribution(
 A dataframe with fitted values
 }
 \description{
-This function extends the `PCNMA:::.fit_distribution` function, by fitting a given set of distributions to a TTE dataset.
+This function extends the [PCNMA:::.fit_distribution] function, by fitting a given set of distributions to a TTE dataset.
 }

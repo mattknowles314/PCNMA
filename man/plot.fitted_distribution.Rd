@@ -12,7 +12,7 @@
   linewidth = 0.75,
   linetype = "dashed",
   theme = "bw",
-  facet_by = "Treatment",
+  facet_by = NULL,
   ...
 )
 }
@@ -22,6 +22,16 @@
 \item{CI}{Include a confidence interval?}
 
 \item{km}{Add the original KM curve?}
+
+\item{km_alpha}{How transparent to make the KM curve in the plot}
+
+\item{linewidth}{how thick to make the model lines}
+
+\item{linetype}{What type of line to use for the modles}
+
+\item{theme}{Ggplot theme}
+
+\item{facet_by}{Create a faceted plot}
 
 \item{...}{For S3 consistency}
 }

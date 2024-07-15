@@ -9,7 +9,7 @@ hr(TTE, strata = "1")
 \arguments{
 \item{TTE}{A TTE dataframe}
 
-\item{strata}{A strata variable}
+\item{strata}{Strata for the RHS of the [survival::Surv] function}
 }
 \description{
 Hazard Ratio

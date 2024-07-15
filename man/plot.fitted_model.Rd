@@ -10,13 +10,24 @@
   pars = parsForStan,
   prob = 0.95,
   ordered = FALSE,
-  xLims = NULL
+  xLims = NULL,
+  study
 )
 }
 \arguments{
 \item{model}{A [PCNMA::fitted_model] object}
 
 \item{type}{Type of plot to produce}
+
+\item{pars}{Which model parameters to include in the plot}
+
+\item{prob}{Significance level}
+
+\item{ordered}{Order the plots?}
+
+\item{xLims}{Limits on the x-axis}
+
+\item{study}{Which study to plot for}
 }
 \description{
 Plots for an NMA modelr

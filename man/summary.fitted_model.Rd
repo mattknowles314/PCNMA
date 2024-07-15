@@ -8,6 +8,10 @@
 }
 \arguments{
 \item{model}{A [PCNMA::fitted_model] object}
+
+\item{likelihood}{A vector of likelihoods}
+
+\item{effect}{FE or RE}
 }
 \description{
 Summary of an NMA model

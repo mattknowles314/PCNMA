@@ -4,14 +4,27 @@
 \alias{fit_model}
 \title{Run an NMA}
 \usage{
-fit_model(network, effects, seed = 1, chains = 4, llhood = "weibull")
+fit_model(
+  network,
+  effects,
+  seed = 1,
+  chains = 4,
+  iter = 1000,
+  llhood = "weibull"
+)
 }
 \arguments{
 \item{network}{A [multinma::nma_data] object}
 
-\item{llhood}{Character string specifying a likelihood function}
+\item{effects}{A string specifiying the effects, either "fixed" or "random"}
 
-\item{link}{Character string specifying a link function (defaults to "log")}
+\item{seed}{Random number generating seed}
+
+\item{chains}{Number of chains used by Stan}
+
+\item{iter}{Number of iterations}
+
+\item{llhood}{Character string specifying a likelihood function}
 
 \item{...}{Other parameters to pass to [multinma::nma]}
 }

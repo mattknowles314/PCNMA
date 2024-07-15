@@ -9,6 +9,8 @@
 \arguments{
 \item{fit}{A [PCNMA::fitted_distribution] object}
 
+\item{studies}{Which studies to include}
+
 \item{...}{for S3 consistency}
 }
 \description{

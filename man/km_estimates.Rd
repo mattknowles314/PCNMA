@@ -8,10 +8,12 @@ km_estimates(TTE, strata = "1")
 }
 \arguments{
 \item{TTE}{A TTE dataframe}
+
+\item{Strata}{for the RHS of the [survival::Surv] function}
 }
 \value{
 A [PCNMA::km_obj] object
 }
 \description{
-Generate Kaplan-Meier estimates from a TTE object. Uses `ggsurvfit::survfit2` to generate KM estimates. Only requires strata to be specified.
+Generate Kaplan-Meier estimates from a TTE object. Uses [ggsurvfit::survfit2] to generate KM estimates. Only requires strata to be specified.
 }

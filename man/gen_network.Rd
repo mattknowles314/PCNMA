@@ -7,9 +7,11 @@
 gen_network(net_data, ref, covs)
 }
 \arguments{
-\item{net_data}{A dataset created by [PCNMA::gen_network_data]}
+\item{net_data}{A data set created by [PCNMA::gen_network_data]}
 
 \item{ref}{A character reference treatment}
+
+\item{covs}{Any covariates to be included in the ML-NMR}
 }
 \value{
 A [mutlinma::nma_data] object

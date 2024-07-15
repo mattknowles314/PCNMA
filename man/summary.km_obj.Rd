@@ -7,7 +7,7 @@
 \method{summary}{km_obj}(fit, ...)
 }
 \arguments{
-\item{fit}{A `PCNMA::km_obj` object}
+\item{fit}{A [PCNMA::km_obj] object}
 }
 \value{
 A summary table of the KM data

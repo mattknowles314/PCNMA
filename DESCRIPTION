@@ -7,6 +7,5 @@ Author: Matthew Knowles
 Maintainer: Matthew Knowles <mattknowles314@gmail.com>
 Description: This package contains the functions and data for my MSc Thesis, concerning the use of parametric and non-parametric models for survival in pancreatic cancer
 License: MIT + file LICENSE
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Encoding: UTF-8
-

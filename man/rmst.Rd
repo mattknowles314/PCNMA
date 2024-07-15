@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit_distribution.R
 \name{rmst}
 \alias{rmst}
-\title{Hazard ratios of a fitted model}
+\title{RMST of fitted survival models}
 \usage{
 rmst(fit, x, ...)
 }
@@ -14,5 +14,5 @@ rmst(fit, x, ...)
 \item{...}{For S3 consistency}
 }
 \description{
-Hazard ratios of a fitted model
+Returns the RMST estimate for a fitted survival model up to a time x.
 }
