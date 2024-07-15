@@ -32,7 +32,11 @@ fit_model <- function(network, effects, seed = 1, chains = 4,
 #'
 #' @param model A [PCNMA::fitted_model] object
 #' @param type Type of plot to produce
-#'
+#' @param pars Which model parameters to include in the plot
+#' @param prob Significance level
+#' @param ordered Order the plots?
+#' @param xLims Limits on the x-axis
+#' @param study Which study to plot for
 #'
 #' @export
 plot.fitted_model <- function(model, type = "trace", pars = parsForStan, prob = 0.95, ordered = FALSE, xLims = NULL, study) {
@@ -66,7 +70,9 @@ plot.fitted_model <- function(model, type = "trace", pars = parsForStan, prob = 
 #' Summary of an NMA model
 #'
 #' @param model A [PCNMA::fitted_model] object
-#' 
+#' @param likelihood A vector of likelihoods
+#' @param effect FE or RE 
+#'
 #' @export
 summary.fitted_model <- function(model, likelihood, effect) {
   a <- try({multinma::dic(model)[["dic"]]})

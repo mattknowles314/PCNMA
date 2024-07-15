@@ -1,10 +1,10 @@
 #' Fit a single survival distribution
 #' 
-#' This function is a wrapper on `flexsurv::flexsurvreg`, and fits a single distribution to the specified data.
+#' This function is a wrapper on [flexsurv::flexsurvreg], and fits a single distribution to the specified data.
 #' 
 #' @param distribution A single distribution
 #' @param data An IPD dataset
-#' @param strata Strata for the RHS of the `survival::Surv` function
+#' @param strata Strata for the RHS of the [survival::Surv] function
 #' 
 #' @returns A [flexsurv::flexsurvreg] object
 .fit_distribution <- function(distribution, data, strata = "Treatment"){
@@ -18,7 +18,7 @@
 
 #' Fit survival distributions to a dataset.
 #' 
-#' This function extends the `PCNMA:::.fit_distribution` function, by fitting a given set of distributions to a TTE dataset.
+#' This function extends the [PCNMA:::.fit_distribution] function, by fitting a given set of distributions to a TTE dataset.
 #'
 #' @param distributions A list of distributions
 #' @param data An IPD dataset
@@ -54,10 +54,14 @@ fit_distribution <- function(distributions = nice_parametric_dists, data, strata
 #' @param fit A `PCNMA::fitted_distribution` object
 #' @param CI Include a confidence interval?
 #' @param km Add the original KM curve?
+#' @param km_alpha How transparent to make the KM curve in the plot
+#' @param linewidth how thick to make the model lines
+#' @param linetype What type of line to use for the modles
+#' @param theme Ggplot theme
+#' @param facet_by Create a faceted plot
 #' @param ... For S3 consistency
 #'
 #' @export
-#' 
 plot.fitted_distribution <- function(fit, 
                                       CI = FALSE, 
                                       km = FALSE, 
@@ -118,7 +122,6 @@ plot.fitted_distribution <- function(fit,
 #' @param median Returns a table of median estimates for a set of models
 #' 
 #' @export
-#' 
 summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE) {
   if (AIC) {
     df <- fit |> 
@@ -155,10 +158,10 @@ summary.fitted_distribution <- function(fit, AIC = FALSE, median = FALSE) {
 #' Returns the model coefficients for a given survival model
 #' 
 #' @param fit A [PCNMA::fitted_distribution] object
+#' @param studies Which studies to include
 #' @param ... for S3 consistency
 #' 
 #' @export
-#' 
 coef.fitted_distribution <- function(fit, studies, ...){
   coefList <- purrr::map(fit$Model, .get_attribute, "coefficients")
   df <- stack(coefList)
@@ -166,12 +169,6 @@ coef.fitted_distribution <- function(fit, studies, ...){
   
   df
 }
-
-#' Hazard ratios of a fitted model
-#'
-#' @param fit A [PCNMA::fitted_distributions] object
-#'
-#'
 
 #' RMST of fitted survival models
 #' 

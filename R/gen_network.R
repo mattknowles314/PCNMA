@@ -1,7 +1,8 @@
 #' Generate a network of evidence
 #'
-#' @param net_data A dataset created by [PCNMA::gen_network_data]
+#' @param net_data A data set created by [PCNMA::gen_network_data]
 #' @param ref A character reference treatment
+#' @param covs Any covariates to be included in the ML-NMR
 #'
 #' @returns A [mutlinma::nma_data] object
 #' 

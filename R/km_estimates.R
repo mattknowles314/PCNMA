@@ -1,8 +1,9 @@
 #' Generate KM estimates
 #'
-#' Generate Kaplan-Meier estimates from a TTE object. Uses `ggsurvfit::survfit2` to generate KM estimates. Only requires strata to be specified.
+#' Generate Kaplan-Meier estimates from a TTE object. Uses [ggsurvfit::survfit2] to generate KM estimates. Only requires strata to be specified.
 #'
 #' @param TTE A TTE dataframe
+#' @param Strata for the RHS of the [survival::Surv] function 
 #'
 #' @returns A [PCNMA::km_obj] object
 #' 
@@ -16,8 +17,7 @@ km_estimates <- function(TTE, strata = "1"){
 #' Hazard Ratio
 #'
 #' @param TTE A TTE dataframe
-#' @param strata A strata variable
-#' 
+#' @param strata Strata for the RHS of the [survival::Surv] function
 #'
 #' @export
 hr <- function(TTE, strata = "1") {
@@ -29,14 +29,6 @@ hr <- function(TTE, strata = "1") {
   )
   class(out) <- c("hr_obj", class(out))
   out
-}
-
-#' Summarise a Hazard Ratio
-#'
-#'
-#'
-summary.hr_obj <- function(hr) {
-  out <- survival:::summary.coxph(hr) 
 }
 
 
@@ -82,7 +74,7 @@ plot.km_obj <- function(fit, type = "survival", risk.table = TRUE, break.x.by = 
 
 #' Summarise KM data
 #' 
-#' @param fit A `PCNMA::km_obj` object
+#' @param fit A [PCNMA::km_obj] object
 #' 
 #' @returns A summary table of the KM data
 #' 
