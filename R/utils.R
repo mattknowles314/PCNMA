@@ -28,15 +28,24 @@ parsForStan <- c(
   "d[GEM-SOR]"
 )
 
-IPDParsforstan <- c(
+parsForStanSA1 <- c(
   "d[GEM-AXI]",
   "d[GEM-CAP]",
   "d[GEM-IRI]",
   "d[GEM-PEM]",
   "d[GEM-NAB]",
-  "d[GEM-SOR]",
-  "d[GEM-SIM]"
+  "d[GEM-SOR]"
 )
+
+parsForStanSA2 <- c(
+  "d[FOL]",
+  "d[GEM-AXI]",
+  "d[GEM-CAP]",
+  "d[GEM-IRI]",
+  "d[GEM-PEM]",
+  "d[GEM-NAB]"
+)
+
 
 .get_attribute <- function(Model, attribute) {
   return(Model[[attribute]])
